@@ -10,192 +10,115 @@ export default function Home() {
   const rankingPosts = getRankingPosts();
 
   return (
-    <main className="max-w-[1200px] mx-auto px-5">
+    <main>
       {/* Hero Section (マガジン風アシンメトリー) */}
-      <section className="py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+      <section className="hero-section container">
+        <div className="hero-grid">
           {/* メイン特集 */}
           {heroMain && (
-            <Link
-              href={`/posts/${heroMain.slug}`}
-              className="lg:col-span-2 relative rounded-lg overflow-hidden min-h-[340px] lg:min-h-[460px] bg-[#18181b] border border-[#27272a] flex flex-col justify-end p-6 sm:p-10 group"
-            >
-              <Image
-                src={heroMain.heroImage}
-                alt={heroMain.title}
-                fill
-                priority
-                className="object-cover opacity-60 group-hover:scale-105 group-hover:opacity-40 transition-all duration-700"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent pointer-events-none" />
-              <div className="relative z-10">
-                <div className="flex items-center gap-3 mb-3 text-xs font-bold">
-                  <span className="bg-[#ccff00] text-black px-3 py-1 rounded-full font-black tracking-wide">
-                    {heroMain.category}
-                  </span>
-                  <span className="text-[#a1a1aa] font-medium">⏱ {heroMain.readTime}</span>
+            <Link href={`/posts/${heroMain.slug}`} className="hero-card hero-main">
+              <img src={heroMain.heroImage} alt={heroMain.title} />
+              <div className="hero-content">
+                <div className="hero-meta">
+                  <span className="cat-label">{heroMain.category}</span>
+                  <span>⏱ {heroMain.readTime}</span>
                 </div>
-                <h2 className="text-xl sm:text-3xl font-black text-[#f4f4f5] leading-snug drop-shadow-md">
-                  {heroMain.title}
-                </h2>
-                <p className="text-sm text-[#a1a1aa] mt-3 line-clamp-2 hidden sm:block">
-                  {heroMain.excerpt}
-                </p>
+                <h2 className="hero-title">{heroMain.title}</h2>
               </div>
             </Link>
           )}
 
-          {/* サブ特集 2件 */}
-          <div className="flex flex-col gap-5">
-            {heroSub1 && (
-              <Link
-                href={`/posts/${heroSub1.slug}`}
-                className="relative rounded-lg overflow-hidden min-h-[200px] flex-1 bg-[#18181b] border border-[#27272a] flex flex-col justify-end p-5 group"
-              >
-                <Image
-                  src={heroSub1.heroImage}
-                  alt={heroSub1.title}
-                  fill
-                  className="object-cover opacity-60 group-hover:scale-105 group-hover:opacity-40 transition-all duration-700"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent pointer-events-none" />
-                <div className="relative z-10">
-                  <span className="inline-block bg-white text-black text-[11px] font-black px-2.5 py-0.5 rounded-full mb-2">
+          {/* サブ特集1 */}
+          {heroSub1 && (
+            <Link href={`/posts/${heroSub1.slug}`} className="hero-card hero-sub">
+              <img src={heroSub1.heroImage} alt={heroSub1.title} />
+              <div className="hero-content">
+                <div className="hero-meta">
+                  <span className="cat-label" style={{ background: "#fff", color: "#000" }}>
                     {heroSub1.category}
                   </span>
-                  <h3 className="text-base sm:text-lg font-bold text-[#f4f4f5] leading-snug line-clamp-2">
-                    {heroSub1.title}
-                  </h3>
                 </div>
-              </Link>
-            )}
+                <h2 className="hero-title">{heroSub1.title}</h2>
+              </div>
+            </Link>
+          )}
 
-            {heroSub2 && (
-              <Link
-                href={`/posts/${heroSub2.slug}`}
-                className="relative rounded-lg overflow-hidden min-h-[200px] flex-1 bg-[#18181b] border border-[#27272a] flex flex-col justify-end p-5 group"
-              >
-                <Image
-                  src={heroSub2.heroImage}
-                  alt={heroSub2.title}
-                  fill
-                  className="object-cover opacity-60 group-hover:scale-105 group-hover:opacity-40 transition-all duration-700"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent pointer-events-none" />
-                <div className="relative z-10">
-                  <span className="inline-block bg-white text-black text-[11px] font-black px-2.5 py-0.5 rounded-full mb-2">
+          {/* サブ特集2 */}
+          {heroSub2 && (
+            <Link href={`/posts/${heroSub2.slug}`} className="hero-card hero-sub">
+              <img src={heroSub2.heroImage} alt={heroSub2.title} />
+              <div className="hero-content">
+                <div className="hero-meta">
+                  <span className="cat-label" style={{ background: "#fff", color: "#000" }}>
                     {heroSub2.category}
                   </span>
-                  <h3 className="text-base sm:text-lg font-bold text-[#f4f4f5] leading-snug line-clamp-2">
-                    {heroSub2.title}
-                  </h3>
                 </div>
-              </Link>
-            )}
-          </div>
+                <h2 className="hero-title">{heroSub2.title}</h2>
+              </div>
+            </Link>
+          )}
         </div>
       </section>
 
-      {/* Categories タグクラウド風 */}
-      <section className="py-6">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <Link
-            href="/reviews?cat=スキンケア・洗顔"
-            className="bg-[#18181b] border border-[#27272a] hover:border-[#ccff00] hover:bg-[#27272a] rounded-lg p-5 flex items-center gap-4 transition-all"
-          >
-            <div className="text-2xl bg-[#09090b] w-12 h-12 flex items-center justify-center rounded-full border border-[#3f3f46]">
-              🧴
-            </div>
-            <div>
-              <div className="font-extrabold text-sm sm:text-base text-[#f4f4f5]">スキンケア</div>
-              <span className="text-[10px] text-[#a1a1aa] uppercase font-bold tracking-wider">SKIN & FACE</span>
+      {/* Categories (タグクラウド風デザイン) */}
+      <section className="container">
+        <div className="cat-grid">
+          <Link href="/reviews?cat=スキンケア・洗顔" className="cat-box">
+            <div className="cat-icon">🧴</div>
+            <div className="cat-name">
+              スキンケア<span>SKIN & FACE</span>
             </div>
           </Link>
-          <Link
-            href="/reviews?cat=ヘア・眉毛セット"
-            className="bg-[#18181b] border border-[#27272a] hover:border-[#ccff00] hover:bg-[#27272a] rounded-lg p-5 flex items-center gap-4 transition-all"
-          >
-            <div className="text-2xl bg-[#09090b] w-12 h-12 flex items-center justify-center rounded-full border border-[#3f3f46]">
-              ✂️
-            </div>
-            <div>
-              <div className="font-extrabold text-sm sm:text-base text-[#f4f4f5]">ヘア＆眉毛</div>
-              <span className="text-[10px] text-[#a1a1aa] uppercase font-bold tracking-wider">HAIR & EYEBROW</span>
+          <Link href="/reviews?cat=ヘア・眉毛セット" className="cat-box">
+            <div className="cat-icon">✂️</div>
+            <div className="cat-name">
+              ヘア＆眉毛<span>HAIR & EYEBROW</span>
             </div>
           </Link>
-          <Link
-            href="/reviews?cat=ボディ・姿勢改善"
-            className="bg-[#18181b] border border-[#27272a] hover:border-[#ccff00] hover:bg-[#27272a] rounded-lg p-5 flex items-center gap-4 transition-all"
-          >
-            <div className="text-2xl bg-[#09090b] w-12 h-12 flex items-center justify-center rounded-full border border-[#3f3f46]">
-              💪
-            </div>
-            <div>
-              <div className="font-extrabold text-sm sm:text-base text-[#f4f4f5]">ボディメイク</div>
-              <span className="text-[10px] text-[#a1a1aa] uppercase font-bold tracking-wider">BODY & DIET</span>
+          <Link href="/reviews?cat=ボディ・姿勢改善" className="cat-box">
+            <div className="cat-icon">💪</div>
+            <div className="cat-name">
+              ボディメイク<span>BODY & DIET</span>
             </div>
           </Link>
-          <Link
-            href="/reviews?cat=ニオイ・体臭対策"
-            className="bg-[#18181b] border border-[#27272a] hover:border-[#ccff00] hover:bg-[#27272a] rounded-lg p-5 flex items-center gap-4 transition-all"
-          >
-            <div className="text-2xl bg-[#09090b] w-12 h-12 flex items-center justify-center rounded-full border border-[#3f3f46]">
-              🚿
-            </div>
-            <div>
-              <div className="font-extrabold text-sm sm:text-base text-[#f4f4f5]">ニオイ対策</div>
-              <span className="text-[10px] text-[#a1a1aa] uppercase font-bold tracking-wider">CLEANLINESS</span>
+          <Link href="/reviews?cat=ニオイ・体臭対策" className="cat-box">
+            <div className="cat-icon">🚿</div>
+            <div className="cat-name">
+              ニオイ対策<span>CLEANLINESS</span>
             </div>
           </Link>
         </div>
       </section>
 
       {/* メインコンテンツ ＆ サイドバー */}
-      <section className="py-12" id="latest">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
+      <section className="container" id="latest">
+        <div className="content-wrapper">
           {/* 左カラム：記事一覧 */}
-          <div className="lg:col-span-2">
-            <div className="flex items-end justify-between mb-8 pb-4 border-b-2 border-[#27272a]">
-              <div>
-                <span className="text-xs text-[#ccff00] font-black tracking-widest uppercase block">
-                  Latest Reports
-                </span>
-                <h2 className="text-2xl sm:text-3xl font-black text-[#f4f4f5] mt-1">最新の検証・レビュー</h2>
+          <div className="main-content">
+            <div className="section-header">
+              <div className="sec-title-wrap">
+                <span className="sec-en">Latest Reports</span>
+                <h2 className="sec-ja">最新の検証・レビュー</h2>
               </div>
-              <Link href="/reviews" className="text-xs text-[#a1a1aa] hover:text-[#ccff00] font-bold">
+              <Link href="/reviews" className="sec-more">
                 View All →
               </Link>
             </div>
 
-            <div className="space-y-6">
+            <div className="post-list">
               {posts.map((post) => (
-                <Link
-                  key={post.slug}
-                  href={`/posts/${post.slug}`}
-                  className="bg-[#18181b] border border-[#27272a] hover:border-[#3f3f46] hover:-translate-y-0.5 rounded-lg overflow-hidden flex flex-col sm:flex-row transition-all duration-300 group"
-                >
-                  <div className="w-full sm:w-[35%] h-48 sm:h-auto relative bg-[#222] flex-shrink-0">
-                    <Image
-                      src={post.heroImage}
-                      alt={post.title}
-                      fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
+                <Link key={post.slug} href={`/posts/${post.slug}`} className="post-card">
+                  <div className="post-thumb">
+                    <img src={post.heroImage} alt={post.title} />
                   </div>
-                  <div className="p-6 flex flex-col justify-center flex-grow">
-                    <div className="flex flex-wrap items-center gap-2 text-xs text-[#a1a1aa] mb-2.5">
-                      <span className="text-[#ccff00] bg-[#ccff00]/10 border border-[#ccff00]/20 px-2 py-0.5 rounded font-bold">
-                        {post.tags[0] || "#コスメ"}
-                      </span>
+                  <div className="post-info">
+                    <div className="post-meta">
+                      <span className="tag">{post.tags[0] || "#コスメ"}</span>
                       <span>{post.date}</span>
                       <span>⏱ {post.readTime}</span>
                     </div>
-                    <h3 className="text-lg font-black text-[#f4f4f5] group-hover:text-[#ccff00] transition-colors mb-2 leading-snug">
-                      {post.title}
-                    </h3>
-                    <p className="text-xs sm:text-sm text-[#a1a1aa] line-clamp-2 leading-relaxed">
-                      {post.excerpt}
-                    </p>
+                    <h3 className="post-title">{post.title}</h3>
+                    <p className="post-excerpt">{post.excerpt}</p>
                   </div>
                 </Link>
               ))}
@@ -203,59 +126,54 @@ export default function Home() {
           </div>
 
           {/* 右カラム：サイドバー */}
-          <aside className="space-y-8" id="ranking">
+          <aside className="sidebar" id="ranking">
             {/* ウィジェット1: ランキング */}
-            <div className="bg-[#18181b] border border-[#27272a] rounded-lg p-6">
-              <h3 className="text-base font-black text-[#f4f4f5] mb-5 pb-3 border-b-2 border-[#27272a] flex items-center gap-2">
-                <span className="w-1.5 h-4 bg-[#ccff00] inline-block"></span>
-                殿堂入りランキング
-              </h3>
-              <ul className="space-y-4">
-                {rankingPosts.map((post, index) => (
-                  <li key={post.slug}>
-                    <Link href={`/posts/${post.slug}`} className="flex gap-3 items-center group">
-                      <div
-                        className={`text-lg font-black italic w-6 text-center ${
-                          index === 0 ? "text-[#ccff00]" : "text-[#71717a]"
-                        }`}
-                      >
-                        {index + 1}
-                      </div>
-                      <div className="w-14 h-14 relative rounded overflow-hidden flex-shrink-0 bg-black/40 border border-[#3f3f46]">
-                        <Image
-                          src={post.heroImage}
-                          alt={post.title}
-                          fill
-                          className="object-cover"
-                        />
-                      </div>
-                      <div className="text-xs font-bold text-[#f4f4f5] group-hover:text-[#ccff00] transition-colors line-clamp-2 leading-snug">
-                        {post.title}
-                      </div>
-                    </Link>
+            <div className="widget">
+              <h3 className="widget-title">殿堂入りランキング</h3>
+              <ul className="ranking-list">
+                {rankingPosts.map((post, idx) => (
+                  <li key={post.slug} className="ranking-item">
+                    <div className="ranking-num">{idx + 1}</div>
+                    <div className="ranking-thumb">
+                      <img src={post.heroImage} alt={post.title} />
+                    </div>
+                    <div className="ranking-title">
+                      <Link href={`/posts/${post.slug}`}>{post.title}</Link>
+                    </div>
                   </li>
                 ))}
               </ul>
             </div>
 
-            {/* ウィジェット2: 注目キーワード */}
-            <div className="bg-[#18181b] border border-[#27272a] rounded-lg p-6">
-              <h3 className="text-base font-black text-[#f4f4f5] mb-4 pb-3 border-b-2 border-[#27272a] flex items-center gap-2">
-                <span className="w-1.5 h-4 bg-[#ccff00] inline-block"></span>
-                注目キーワード
-              </h3>
-              <div className="flex flex-wrap gap-2 text-xs">
-                {["#オールインワン", "#青髭", "#コンシーラー", "#眉毛カット", "#ワックス", "#体臭対策", "#猫背矯正", "#チー牛脱却"].map(
-                  (tag) => (
-                    <Link
-                      key={tag}
-                      href={`/reviews?tag=${encodeURIComponent(tag)}`}
-                      className="bg-[#09090b] border border-[#27272a] hover:border-[#ccff00] text-[#a1a1aa] hover:text-[#f4f4f5] px-3 py-1.5 rounded transition-colors"
-                    >
-                      {tag}
-                    </Link>
-                  )
-                )}
+            {/* ウィジェット2: タグクラウド風 */}
+            <div className="widget">
+              <h3 className="widget-title">注目キーワード</h3>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
+                {[
+                  "#オールインワン",
+                  "#青髭",
+                  "#コンシーラー",
+                  "#眉毛カット",
+                  "#ワックス",
+                  "#体臭対策",
+                  "#猫背矯正",
+                  "#チー牛脱却",
+                ].map((tag) => (
+                  <Link
+                    key={tag}
+                    href={`/reviews?tag=${encodeURIComponent(tag)}`}
+                    style={{
+                      background: "var(--bg-base)",
+                      border: "1px solid var(--border-color)",
+                      padding: "5px 10px",
+                      fontSize: "0.8rem",
+                      borderRadius: "4px",
+                      color: "var(--text-muted)",
+                    }}
+                  >
+                    {tag}
+                  </Link>
+                ))}
               </div>
             </div>
           </aside>
@@ -263,71 +181,57 @@ export default function Home() {
       </section>
 
       {/* カリキュラム（Roadmap）セクション */}
-      <section className="py-12" id="roadmap">
-        <div className="flex items-end justify-between mb-8 pb-4 border-b-2 border-[#27272a]">
-          <div>
-            <span className="text-xs text-[#ccff00] font-black tracking-widest uppercase block">
-              Roadmap / Curriculum
-            </span>
-            <h2 className="text-2xl sm:text-3xl font-black text-[#f4f4f5] mt-1">【必修】基礎カリキュラム</h2>
+      <section className="container" id="roadmap">
+        <div className="section-header">
+          <div className="sec-title-wrap">
+            <span className="sec-en">Roadmap / Step 1</span>
+            <h2 className="sec-ja">【必修】基礎カリキュラム</h2>
           </div>
-          <Link href="/curriculum" className="text-xs text-[#a1a1aa] hover:text-[#ccff00] font-bold">
+          <Link href="/curriculum" className="sec-more">
             全ステップを見る →
           </Link>
         </div>
 
-        <div className="bg-[#18181b] border border-[#27272a] rounded-xl p-6 sm:p-10 relative">
-          <div className="space-y-8 relative before:absolute before:top-4 before:bottom-4 before:left-[23px] before:w-0.5 before:bg-[#27272a]">
+        <div className="roadmap-container">
+          <div className="roadmap-list">
             {/* Step 1 */}
-            <div className="flex gap-6 items-start relative z-10">
-              <div className="w-12 h-12 bg-[#09090b] border-2 border-[#ccff00] text-[#ccff00] rounded-full flex items-center justify-center font-black text-sm flex-shrink-0">
-                01
-              </div>
-              <div className="bg-[#09090b] border border-[#27272a] hover:border-[#ccff00] p-6 rounded-lg flex-grow transition-colors">
-                <span className="text-xs text-[#a1a1aa] font-bold block mb-1">STEP 1: FACE & SKIN</span>
-                <h3 className="text-lg font-bold text-[#f4f4f5] mb-2">
-                  <Link href="/posts/post-1-skincare" className="hover:text-[#ccff00]">
-                    洗顔と保湿の土台作り（肌荒れ・テカリ撲滅）
-                  </Link>
+            <div className="roadmap-item">
+              <div className="step-marker">01</div>
+              <div className="step-content">
+                <span className="step-meta">STEP 01 : FACE & SKIN</span>
+                <h3 className="step-title">
+                  <Link href="/posts/post-1-skincare">洗顔と保湿の土台作り（肌荒れ・テカリ撲滅）</Link>
                 </h3>
-                <p className="text-sm text-[#a1a1aa] leading-relaxed">
-                  すべての始まりは肌。水洗顔をやめて適切な洗顔料を選び、乾燥肌かオイリー肌かに合わせて保湿を徹底するファーストステップ。
+                <p className="step-desc">
+                  すべての始まりは肌だ。水洗顔をやめてドラッグストアの洗顔料を選び、乾燥肌・脂性肌別に保湿を徹底しろ。
                 </p>
               </div>
             </div>
 
             {/* Step 2 */}
-            <div className="flex gap-6 items-start relative z-10">
-              <div className="w-12 h-12 bg-[#09090b] border-2 border-[#ccff00] text-[#ccff00] rounded-full flex items-center justify-center font-black text-sm flex-shrink-0">
-                02
-              </div>
-              <div className="bg-[#09090b] border border-[#27272a] hover:border-[#ccff00] p-6 rounded-lg flex-grow transition-colors">
-                <span className="text-xs text-[#a1a1aa] font-bold block mb-1">STEP 2: EYEBROW & HAIR</span>
-                <h3 className="text-lg font-bold text-[#f4f4f5] mb-2">
-                  <Link href="/posts/post-3-hair-&-brows" className="hover:text-[#ccff00]">
-                    眉毛デザインと髪型セットの基礎
-                  </Link>
+            <div className="roadmap-item">
+              <div className="step-marker">02</div>
+              <div className="step-content">
+                <span className="step-meta">STEP 02 : EYEBROW & HAIR</span>
+                <h3 className="step-title">
+                  <Link href="/posts/post-3-hair-&-brows">眉毛デザインと髪型セットの基礎</Link>
                 </h3>
-                <p className="text-sm text-[#a1a1aa] leading-relaxed">
-                  顔の印象の8割を決める眉毛。ボサボサ眉毛を整えるセルフカット術と、美容室でのオーダー方法、朝5分のワックス技術を伝授。
+                <p className="step-desc">
+                  顔の印象の8割は眉毛で決まる。ボサボサ眉毛を整えて目力を200%引き上げるセルフカット術と、朝5分のワックス技術を伝授。
                 </p>
               </div>
             </div>
 
             {/* Step 3 */}
-            <div className="flex gap-6 items-start relative z-10">
-              <div className="w-12 h-12 bg-[#09090b] border-2 border-[#ccff00] text-[#ccff00] rounded-full flex items-center justify-center font-black text-sm flex-shrink-0">
-                03
-              </div>
-              <div className="bg-[#09090b] border border-[#27272a] hover:border-[#ccff00] p-6 rounded-lg flex-grow transition-colors">
-                <span className="text-xs text-[#a1a1aa] font-bold block mb-1">STEP 3: BODY & CLEANLINESS</span>
-                <h3 className="text-lg font-bold text-[#f4f4f5] mb-2">
-                  <Link href="/posts/post-5-cleanliness" className="hover:text-[#ccff00]">
-                    姿勢・体型改善と「無臭」のニオイマネジメント
-                  </Link>
+            <div className="roadmap-item">
+              <div className="step-marker">03</div>
+              <div className="step-content">
+                <span className="step-meta">STEP 03 : BODY & CLEANLINESS</span>
+                <h3 className="step-title">
+                  <Link href="/posts/post-5-cleanliness">姿勢改善と「無臭」エチケット</Link>
                 </h3>
-                <p className="text-sm text-[#a1a1aa] leading-relaxed">
-                  猫背・巻き肩を解消して服を着こなす土台作りと、香水で誤魔化さない徹底的な体臭・口臭予防ルーティンを確立。
+                <p className="step-desc">
+                  BBクリームを塗る前に姿勢を正せ。猫背・巻き肩を矯正する自宅ストレッチと、香水に頼らない薬用デオドラント習慣で清潔感を完成させろ。
                 </p>
               </div>
             </div>
