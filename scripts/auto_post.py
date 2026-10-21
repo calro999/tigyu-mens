@@ -32,82 +32,72 @@ CANDIDATE_TOPICS = [
     {
         "keyword": "メンズ オールインワン ジェル 保湿",
         "category": "スキンケア・洗顔",
-        "categoryEn": "SKINCARE",
+        "categoryEn": "skincare",
         "tag": "#オールインワン",
-        "theme": "朝の支度30秒！乾燥とテカリを同時に防ぐメンズオールインワン傑作選",
-        "heroImage": "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?q=80&w=800&auto=format&fit=crop"
+        "theme": "朝の支度30秒！乾燥とテカリを同時に防ぐメンズオールインワン傑作選"
     },
     {
         "keyword": "メンズ 洗顔料 毛穴 泥 泡",
         "category": "スキンケア・洗顔",
-        "categoryEn": "SKINCARE",
+        "categoryEn": "skincare",
         "tag": "#洗顔料",
-        "theme": "毛穴の黒ずみ・イチゴ鼻を撲滅！泥洗顔＆濃密泡メンズ洗顔料比較",
-        "heroImage": "https://images.unsplash.com/photo-1556228720-195a672e8a03?q=80&w=800&auto=format&fit=crop"
+        "theme": "毛穴の黒ずみ・イチゴ鼻を撲滅！泥洗顔＆濃密泡メンズ洗顔料比較"
     },
     {
         "keyword": "メンズ コンシーラー スティック クマ 青髭",
         "category": "スキンケア・洗顔",
-        "categoryEn": "SKINCARE",
+        "categoryEn": "skincare",
         "tag": "#青髭",
-        "theme": "バレずに青髭・目の下のクマを完全消去！メンズスティックコンシーラー検証",
-        "heroImage": "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=800&auto=format&fit=crop"
+        "theme": "バレずに青髭・目の下のクマを完全消去！メンズスティックコンシーラー検証"
     },
     {
-        "keyword": "メンズ 眉毛 アイブロウ ペンシル キット",
+        "keyword": "メンズ 眉毛 アイブロウ",
         "category": "ヘア・眉毛セット",
-        "categoryEn": "HAIR & BROWS",
+        "categoryEn": "hair-brows",
         "tag": "#眉毛",
-        "theme": "眉毛ボサボサは一発で足切り！失敗しないセルフアイブロウ＆トリマー比較",
-        "heroImage": "https://images.unsplash.com/photo-1592647420148-faccb4ce0d1e?q=80&w=800&auto=format&fit=crop"
+        "theme": "眉毛ボサボサは一発で足切り！失敗しないセルフアイブロウ＆トリマー比較"
     },
     {
         "keyword": "メンズ ヘアワックス ハード マット 束感",
         "category": "ヘア・眉毛セット",
-        "categoryEn": "HAIR & BROWS",
+        "categoryEn": "hair-brows",
         "tag": "#ワックス",
-        "theme": "ノーセットのペタ髪を脱出！一日中キープできるメンズワックス＆グリース比較",
-        "heroImage": "https://images.unsplash.com/photo-1593702275687-f8b402bf1fb5?q=80&w=800&auto=format&fit=crop"
+        "theme": "ノーセットのペタ髪を脱出！一日中キープできるメンズワックス＆グリース比較"
     },
     {
-        "keyword": "メンズ スカルプシャンプー 育毛 薬用",
+        "keyword": "メンズ スカルプシャンプー 薬用 頭皮",
         "category": "ヘア・眉毛セット",
-        "categoryEn": "HAIR & BROWS",
+        "categoryEn": "hair-brows",
         "tag": "#頭皮ケア",
-        "theme": "頭皮の脂ギッシュ＆抜け毛予防！今から始めるメンズスカルプシャンプー厳選",
-        "heroImage": "https://images.unsplash.com/photo-1585751119414-ef2636f8aede?q=80&w=800&auto=format&fit=crop"
+        "theme": "頭皮の脂ギッシュ＆抜け毛予防！今から始めるメンズスカルプシャンプー厳選"
     },
     {
         "keyword": "メンズ デオドラント ロールオン 制汗剤",
         "category": "ニオイ・体臭対策",
-        "categoryEn": "CLEANLINESS",
+        "categoryEn": "cleanliness",
         "tag": "#制汗剤",
-        "theme": "男のワキ汗＆すれ違いのニオイを1日完全ブロックするメンズデオドラント比較",
-        "heroImage": "https://images.unsplash.com/photo-1621607512214-68297480165e?q=80&w=800&auto=format&fit=crop"
+        "theme": "男のワキ汗＆すれ違いのニオイを1日完全ブロックするメンズデオドラント比較"
     },
     {
         "keyword": "メンズ 香水 練り香水 シトラス ソープ 清潔感",
         "category": "ニオイ・体臭対策",
-        "categoryEn": "CLEANLINESS",
+        "categoryEn": "cleanliness",
         "tag": "#フレグランス",
-        "theme": "香水臭い男は嫌われる！「お風呂上がりの石鹸」香るメンズ練り香水比較",
-        "heroImage": "https://images.unsplash.com/photo-1523293182086-7651a899d37f?q=80&w=800&auto=format&fit=crop"
+        "theme": "香水臭い男は嫌われる！「お風呂上がりの石鹸」香るメンズ練り香水比較"
     },
     {
         "keyword": "メンズ フォームローラー 姿勢 矯正 ストレッチ",
         "category": "ボディ・姿勢改善",
-        "categoryEn": "BODY & POSTURE",
+        "categoryEn": "body-posture",
         "tag": "#猫背改善",
-        "theme": "チー牛姿勢・巻き肩を自宅で破壊！姿勢矯正＆筋膜リリースローラー比較",
-        "heroImage": "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=800&auto=format&fit=crop"
+        "theme": "チー牛姿勢・巻き肩を自宅で破壊！姿勢矯正＆筋膜リリースローラー比較"
     },
     {
         "keyword": "メンズ アブローラー 腹筋 筋トレ 自宅",
         "category": "ボディ・姿勢改善",
-        "categoryEn": "BODY & POSTURE",
+        "categoryEn": "body-posture",
         "tag": "#自重トレ",
-        "theme": "だらしないぽっこり腹を割る！自宅1日3分で効くメンズ腹筋ローラー比較",
-        "heroImage": "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?q=80&w=800&auto=format&fit=crop"
+        "theme": "だらしないぽっこり腹を割る！自宅1日3分で効くメンズ腹筋ローラー比較"
     }
 ]
 
@@ -117,9 +107,9 @@ def load_cache():
             return set(line.strip() for line in f if line.strip())
     return set()
 
-def append_cache(slug):
+def append_cache(theme):
     with open(CACHE_FILE, "a", encoding="utf-8") as f:
-        f.write(f"{slug}\n")
+        f.write(f"{theme}\n")
 
 def search_rakuten_items(keyword, hits=4):
     if not APP_ID or not ACCESS_KEY:
@@ -157,8 +147,13 @@ def search_rakuten_items(keyword, hits=4):
                     img = item["mediumImageUrls"][0].get("imageUrl", "") if isinstance(item["mediumImageUrls"][0], dict) else item["mediumImageUrls"][0]
                 elif item.get("smallImageUrls"):
                     img = item["smallImageUrls"][0].get("imageUrl", "") if isinstance(item["smallImageUrls"][0], dict) else item["smallImageUrls"][0]
-                if img:
-                    img = re.sub(r'\?_ex=[0-9]+x[0-9]+', '?_ex=600x600', img)
+                
+                # 画像が存在しない商品は除外
+                if not img or "rakuten.co.jp" not in img:
+                    continue
+
+                # 楽天の高解像度画像に置換
+                img = re.sub(r'\?_ex=[0-9]+x[0-9]+', '?_ex=600x600', img)
 
                 price_val = item.get("itemPrice", 0)
                 price_str = f"¥{price_val:,}" if price_val else "オープン価格"
@@ -215,10 +210,7 @@ def auto_generate_one():
         except Exception:
             existing_posts = []
 
-    existing_slugs = set(p.get("slug") for p in existing_posts)
     cache = load_cache()
-
-    # 未投稿のトピックを抽出
     available = [t for t in CANDIDATE_TOPICS if t["theme"] not in cache]
     if not available:
         available = CANDIDATE_TOPICS
@@ -227,9 +219,12 @@ def auto_generate_one():
     print(f"Target Theme: {topic_info['theme']}")
 
     products_raw = search_rakuten_items(topic_info["keyword"], hits=4)
-    if not products_raw:
-        print("[WARN] No products retrieved from Rakuten.")
+    if not products_raw or len(products_raw) == 0:
+        print("[WARN] No products retrieved from Rakuten. Aborting.")
         return
+
+    # 全て楽天画像のみを使用
+    hero_img = products_raw[0]["imageUrl"]
 
     skin_types = ["乾燥肌・敏感肌", "脂性肌・オイリー", "混合肌・初心者", "全肌質・高機能"]
     comparisons = []
@@ -279,7 +274,9 @@ JSONフォーマットで出力してください。
         except Exception as e:
             print("JSON parse error:", e)
 
-    slug_base = f"post-{int(time.time())}-{topic_info['categoryEn'].lower().replace(' ', '-')}"
+    # URLセーフなスラッグ（ハイフンと英数字のみ）
+    safe_cat = re.sub(r'[^a-zA-Z0-9]+', '-', topic_info['categoryEn']).strip('-').lower()
+    slug_base = f"post-{int(time.time())}-{safe_cat}"
     now_str = datetime.now().strftime("%Y.%m.%d")
 
     new_post = {
@@ -290,7 +287,7 @@ JSONフォーマットで出力してください。
         "categoryEn": topic_info["categoryEn"],
         "date": now_str,
         "readTime": f"{random.randint(3, 5)} min read",
-        "heroImage": topic_info["heroImage"],
+        "heroImage": hero_img,
         "tags": [topic_info["tag"], "#チー牛脱却", "#メンズコスメ", "#清潔感"],
         "intro": data.get("intro", "身だしなみへの投資は、最もリターンの高い自己投資です。放置すれば第一印象で足切りされるリスクを、毎日の簡単ケアでゼロにしましょう。"),
         "targetAudience": "垢抜けて清潔感を手に入れたいZ世代男性",
@@ -300,13 +297,12 @@ JSONフォーマットで出力してください。
         "views": random.randint(1000, 3500)
     }
 
-    # 最新記事を先頭に追加（最大50件保持）
     updated_posts = [new_post] + existing_posts[:49]
     with open(DATA_FILE, "w", encoding="utf-8") as f:
         json.dump(updated_posts, f, ensure_ascii=False, indent=2)
 
     append_cache(topic_info["theme"])
-    print(f"[SUCCESS] Added new post: {new_post['title']} (slug: {new_post['slug']})")
+    print(f"[SUCCESS] Added new post: {new_post['title']} (slug: {new_post['slug']}) with 100% Rakuten images.")
 
 if __name__ == "__main__":
     auto_generate_one()

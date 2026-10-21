@@ -214,7 +214,7 @@ export default function Home() {
               <div className="step-content">
                 <span className="step-meta">STEP 02 : EYEBROW & HAIR</span>
                 <h3 className="step-title">
-                  <Link href="/posts/post-3-hair-&-brows">眉毛デザインと髪型セットの基礎</Link>
+                  <Link href="/posts/post-3-hair-brows">眉毛デザインと髪型セットの基礎</Link>
                 </h3>
                 <p className="step-desc">
                   顔の印象の8割は眉毛で決まる。ボサボサ眉毛を整えて目力を200%引き上げるセルフカット術と、朝5分のワックス技術を伝授。
