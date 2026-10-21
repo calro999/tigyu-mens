@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import { getAllPosts } from "@/data/posts";
 import type { Metadata } from "next";
 
@@ -25,32 +24,24 @@ export default async function ReviewsPage({ searchParams }: Props) {
   const categories = ["すべて", "スキンケア・洗顔", "ヘア・眉毛セット", "ボディ・姿勢改善", "ニオイ・体臭対策"];
 
   return (
-    <main className="max-w-[1200px] mx-auto px-5 py-12">
-      <div className="mb-10 text-center">
-        <span className="text-xs text-[#ccff00] font-black tracking-widest uppercase block mb-2">
-          REVIEWS & BENCHMARKS
-        </span>
-        <h1 className="text-3xl sm:text-4xl font-black text-[#f4f4f5] mb-4">
-          最新の検証・比較レポート
-        </h1>
-        <p className="text-sm text-[#a1a1aa] max-w-xl mx-auto">
+    <main className="subpage-container">
+      <div className="subpage-header">
+        <span className="subpage-en">REVIEWS & BENCHMARKS</span>
+        <h1 className="subpage-title">最新の検証・比較レポート</h1>
+        <p className="subpage-lead">
           ドラッグストアから楽天で話題の本格コスメまで、実際に効果の出るアイテムだけを肌質別に徹底比較しています。
         </p>
       </div>
 
       {/* カテゴリフィルタ */}
-      <div className="flex flex-wrap justify-center gap-2 mb-10">
+      <div className="filter-bar">
         {categories.map((c) => {
           const isSelected = (!cat && c === "すべて") || cat === c;
           return (
             <Link
               key={c}
               href={c === "すべて" ? "/reviews" : `/reviews?cat=${encodeURIComponent(c)}`}
-              className={`text-xs px-4 py-2 rounded-full font-bold transition-colors ${
-                isSelected
-                  ? "bg-[#ccff00] text-black"
-                  : "bg-[#18181b] border border-[#27272a] text-[#a1a1aa] hover:text-[#f4f4f5]"
-              }`}
+              className={`filter-btn ${isSelected ? "active" : ""}`}
             >
               {c}
             </Link>
@@ -60,50 +51,27 @@ export default async function ReviewsPage({ searchParams }: Props) {
 
       {/* 記事一覧 */}
       {filteredPosts.length === 0 ? (
-        <div className="text-center py-20 bg-[#18181b] rounded-lg border border-[#27272a]">
-          <p className="text-sm text-[#a1a1aa]">該当する記事が見つかりませんでした。</p>
-          <Link href="/reviews" className="mt-4 inline-block text-xs font-bold text-[#ccff00]">
+        <div className="content-box" style={{ textAlign: "center", padding: "40px" }}>
+          <p style={{ color: "var(--text-muted)" }}>該当する記事が見つかりませんでした。</p>
+          <Link href="/reviews" className="curriculum-link" style={{ marginTop: "10px", display: "inline-block" }}>
             すべての記事を表示する →
           </Link>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="post-list">
           {filteredPosts.map((post) => (
-            <Link
-              key={post.slug}
-              href={`/posts/${post.slug}`}
-              className="bg-[#18181b] border border-[#27272a] hover:border-[#3f3f46] hover:-translate-y-1 rounded-xl overflow-hidden flex flex-col justify-between transition-all duration-300 group"
-            >
-              <div>
-                <div className="h-48 relative bg-[#222]">
-                  <Image
-                    src={post.heroImage}
-                    alt={post.title}
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <span className="absolute top-3 left-3 bg-black/80 backdrop-blur-sm text-[#ccff00] text-[10px] font-bold px-2.5 py-1 rounded">
-                    {post.category}
-                  </span>
-                </div>
-                <div className="p-5">
-                  <div className="flex items-center gap-2 text-[11px] text-[#a1a1aa] mb-2">
-                    <span>{post.date}</span>
-                    <span>•</span>
-                    <span>⏱ {post.readTime}</span>
-                  </div>
-                  <h2 className="text-base font-black text-[#f4f4f5] group-hover:text-[#ccff00] transition-colors leading-snug mb-2 line-clamp-2">
-                    {post.title}
-                  </h2>
-                  <p className="text-xs text-[#a1a1aa] line-clamp-2 leading-relaxed">
-                    {post.excerpt}
-                  </p>
-                </div>
+            <Link key={post.slug} href={`/posts/${post.slug}`} className="post-card">
+              <div className="post-thumb">
+                <img src={post.heroImage} alt={post.title} />
               </div>
-              <div className="p-5 pt-0">
-                <span className="text-xs font-bold text-[#ccff00] group-hover:underline">
-                  比較テーブルを見る →
-                </span>
+              <div className="post-info">
+                <div className="post-meta">
+                  <span className="tag">{post.tags[0] || "#コスメ"}</span>
+                  <span>{post.date}</span>
+                  <span>⏱ {post.readTime}</span>
+                </div>
+                <h3 className="post-title">{post.title}</h3>
+                <p className="post-excerpt">{post.excerpt}</p>
               </div>
             </Link>
           ))}

@@ -7,7 +7,6 @@ import random
 import time
 from datetime import datetime
 
-# Load .env
 def load_env():
     env_vars = {}
     if os.path.exists(".env"):
@@ -28,11 +27,13 @@ GEMINI_KEY = env.get("GEMINI_API_KEY") or os.environ.get("GEMINI_API_KEY")
 DATA_FILE = "data/posts.json"
 CACHE_FILE = "posted_cache.txt"
 
+# SEO的に強いキーワードスラッグを定義
 CANDIDATE_TOPICS = [
     {
         "keyword": "メンズ オールインワン ジェル 保湿",
         "category": "スキンケア・洗顔",
         "categoryEn": "skincare",
+        "slug": "mens-all-in-one-gel-recommend",
         "tag": "#オールインワン",
         "theme": "朝の支度30秒！乾燥とテカリを同時に防ぐメンズオールインワン傑作選"
     },
@@ -40,6 +41,7 @@ CANDIDATE_TOPICS = [
         "keyword": "メンズ 洗顔料 毛穴 泥 泡",
         "category": "スキンケア・洗顔",
         "categoryEn": "skincare",
+        "slug": "mens-pore-face-wash-ranking",
         "tag": "#洗顔料",
         "theme": "毛穴の黒ずみ・イチゴ鼻を撲滅！泥洗顔＆濃密泡メンズ洗顔料比較"
     },
@@ -47,6 +49,7 @@ CANDIDATE_TOPICS = [
         "keyword": "メンズ コンシーラー スティック クマ 青髭",
         "category": "スキンケア・洗顔",
         "categoryEn": "skincare",
+        "slug": "mens-beard-concealer-stick",
         "tag": "#青髭",
         "theme": "バレずに青髭・目の下のクマを完全消去！メンズスティックコンシーラー検証"
     },
@@ -54,6 +57,7 @@ CANDIDATE_TOPICS = [
         "keyword": "メンズ 眉毛 アイブロウ",
         "category": "ヘア・眉毛セット",
         "categoryEn": "hair-brows",
+        "slug": "mens-eyebrow-pencil-trimmer",
         "tag": "#眉毛",
         "theme": "眉毛ボサボサは一発で足切り！失敗しないセルフアイブロウ＆トリマー比較"
     },
@@ -61,6 +65,7 @@ CANDIDATE_TOPICS = [
         "keyword": "メンズ ヘアワックス ハード マット 束感",
         "category": "ヘア・眉毛セット",
         "categoryEn": "hair-brows",
+        "slug": "mens-hair-wax-matte-hard",
         "tag": "#ワックス",
         "theme": "ノーセットのペタ髪を脱出！一日中キープできるメンズワックス＆グリース比較"
     },
@@ -68,6 +73,7 @@ CANDIDATE_TOPICS = [
         "keyword": "メンズ スカルプシャンプー 薬用 頭皮",
         "category": "ヘア・眉毛セット",
         "categoryEn": "hair-brows",
+        "slug": "mens-scalp-shampoo-care",
         "tag": "#頭皮ケア",
         "theme": "頭皮の脂ギッシュ＆抜け毛予防！今から始めるメンズスカルプシャンプー厳選"
     },
@@ -75,6 +81,7 @@ CANDIDATE_TOPICS = [
         "keyword": "メンズ デオドラント ロールオン 制汗剤",
         "category": "ニオイ・体臭対策",
         "categoryEn": "cleanliness",
+        "slug": "mens-deodorant-roll-on-block",
         "tag": "#制汗剤",
         "theme": "男のワキ汗＆すれ違いのニオイを1日完全ブロックするメンズデオドラント比較"
     },
@@ -82,6 +89,7 @@ CANDIDATE_TOPICS = [
         "keyword": "メンズ 香水 練り香水 シトラス ソープ 清潔感",
         "category": "ニオイ・体臭対策",
         "categoryEn": "cleanliness",
+        "slug": "mens-solid-perfume-clean-soap",
         "tag": "#フレグランス",
         "theme": "香水臭い男は嫌われる！「お風呂上がりの石鹸」香るメンズ練り香水比較"
     },
@@ -89,6 +97,7 @@ CANDIDATE_TOPICS = [
         "keyword": "メンズ フォームローラー 姿勢 矯正 ストレッチ",
         "category": "ボディ・姿勢改善",
         "categoryEn": "body-posture",
+        "slug": "mens-posture-foam-roller",
         "tag": "#猫背改善",
         "theme": "チー牛姿勢・巻き肩を自宅で破壊！姿勢矯正＆筋膜リリースローラー比較"
     },
@@ -96,6 +105,7 @@ CANDIDATE_TOPICS = [
         "keyword": "メンズ アブローラー 腹筋 筋トレ 自宅",
         "category": "ボディ・姿勢改善",
         "categoryEn": "body-posture",
+        "slug": "mens-ab-roller-core-workout",
         "tag": "#自重トレ",
         "theme": "だらしないぽっこり腹を割る！自宅1日3分で効くメンズ腹筋ローラー比較"
     }
@@ -148,11 +158,9 @@ def search_rakuten_items(keyword, hits=4):
                 elif item.get("smallImageUrls"):
                     img = item["smallImageUrls"][0].get("imageUrl", "") if isinstance(item["smallImageUrls"][0], dict) else item["smallImageUrls"][0]
                 
-                # 画像が存在しない商品は除外
                 if not img or "rakuten.co.jp" not in img:
                     continue
 
-                # 楽天の高解像度画像に置換
                 img = re.sub(r'\?_ex=[0-9]+x[0-9]+', '?_ex=600x600', img)
 
                 price_val = item.get("itemPrice", 0)
@@ -210,8 +218,9 @@ def auto_generate_one():
         except Exception:
             existing_posts = []
 
+    existing_slugs = set(p.get("slug") for p in existing_posts)
     cache = load_cache()
-    available = [t for t in CANDIDATE_TOPICS if t["theme"] not in cache]
+    available = [t for t in CANDIDATE_TOPICS if t["theme"] not in cache and t.get("slug") not in existing_slugs]
     if not available:
         available = CANDIDATE_TOPICS
 
@@ -223,7 +232,6 @@ def auto_generate_one():
         print("[WARN] No products retrieved from Rakuten. Aborting.")
         return
 
-    # 全て楽天画像のみを使用
     hero_img = products_raw[0]["imageUrl"]
 
     skin_types = ["乾燥肌・敏感肌", "脂性肌・オイリー", "混合肌・初心者", "全肌質・高機能"]
@@ -274,13 +282,16 @@ JSONフォーマットで出力してください。
         except Exception as e:
             print("JSON parse error:", e)
 
-    # URLセーフなスラッグ（ハイフンと英数字のみ）
-    safe_cat = re.sub(r'[^a-zA-Z0-9]+', '-', topic_info['categoryEn']).strip('-').lower()
-    slug_base = f"post-{int(time.time())}-{safe_cat}"
+    # SEOクリーンなスラッグ
+    base_slug = topic_info.get("slug") or f"mens-{topic_info['categoryEn']}-guide"
+    slug = base_slug
+    if slug in existing_slugs:
+        slug = f"{base_slug}-{int(time.time())}"
+
     now_str = datetime.now().strftime("%Y.%m.%d")
 
     new_post = {
-        "slug": slug_base,
+        "slug": slug,
         "title": data.get("title", topic_info["theme"]),
         "excerpt": data.get("excerpt", "清潔感を手に入れてチー牛を脱却するための徹底比較ガイド。肌質別の最適アイテムと選び方を解説。"),
         "category": topic_info["category"],
@@ -302,7 +313,7 @@ JSONフォーマットで出力してください。
         json.dump(updated_posts, f, ensure_ascii=False, indent=2)
 
     append_cache(topic_info["theme"])
-    print(f"[SUCCESS] Added new post: {new_post['title']} (slug: {new_post['slug']}) with 100% Rakuten images.")
+    print(f"[SUCCESS] Added new post: {new_post['title']} (slug: {new_post['slug']}) with SEO slug & Rakuten images.")
 
 if __name__ == "__main__":
     auto_generate_one()

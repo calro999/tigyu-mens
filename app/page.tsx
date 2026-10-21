@@ -200,7 +200,7 @@ export default function Home() {
               <div className="step-content">
                 <span className="step-meta">STEP 01 : FACE & SKIN</span>
                 <h3 className="step-title">
-                  <Link href="/posts/post-1-skincare">洗顔と保湿の土台作り（肌荒れ・テカリ撲滅）</Link>
+                  <Link href="/posts/mens-all-in-one-gel-comparison">洗顔と保湿の土台作り（肌荒れ・テカリ撲滅）</Link>
                 </h3>
                 <p className="step-desc">
                   すべての始まりは肌だ。水洗顔をやめてドラッグストアの洗顔料を選び、乾燥肌・脂性肌別に保湿を徹底しろ。
@@ -214,7 +214,7 @@ export default function Home() {
               <div className="step-content">
                 <span className="step-meta">STEP 02 : EYEBROW & HAIR</span>
                 <h3 className="step-title">
-                  <Link href="/posts/post-3-hair-brows">眉毛デザインと髪型セットの基礎</Link>
+                  <Link href="/posts/mens-eyebrow-shaping-kit">眉毛デザインと髪型セットの基礎</Link>
                 </h3>
                 <p className="step-desc">
                   顔の印象の8割は眉毛で決まる。ボサボサ眉毛を整えて目力を200%引き上げるセルフカット術と、朝5分のワックス技術を伝授。
@@ -228,7 +228,7 @@ export default function Home() {
               <div className="step-content">
                 <span className="step-meta">STEP 03 : BODY & CLEANLINESS</span>
                 <h3 className="step-title">
-                  <Link href="/posts/post-5-cleanliness">姿勢改善と「無臭」エチケット</Link>
+                  <Link href="/posts/mens-body-odor-deodorant-best">姿勢改善と「無臭」エチケット</Link>
                 </h3>
                 <p className="step-desc">
                   BBクリームを塗る前に姿勢を正せ。猫背・巻き肩を矯正する自宅ストレッチと、香水に頼らない薬用デオドラント習慣で清潔感を完成させろ。
