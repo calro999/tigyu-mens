@@ -21,10 +21,39 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const post = getPostBySlug(decodedSlug) || getPostBySlug(slug);
   if (!post) return {};
 
+  const pageUrl = `https://tigyu-mens.vercel.app/posts/${post.slug}`;
+
   return {
-    title: `${post.title} | もうチー牛とは呼ばせない！垢抜けコスメ塾`,
+    title: post.title,
     description: post.excerpt,
+    keywords: [
+      post.category,
+      ...post.tags.map((t) => t.replace("#", "")),
+      "メンズコスメ",
+      "垢抜け",
+      "徹底比較",
+      "おすすめ"
+    ],
+    alternates: {
+      canonical: pageUrl,
+    },
     openGraph: {
+      title: post.title,
+      description: post.excerpt,
+      url: pageUrl,
+      type: "article",
+      publishedTime: post.date.replace(/\./g, "-"),
+      images: [
+        {
+          url: post.heroImage,
+          width: 600,
+          height: 600,
+          alt: post.title,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
       title: post.title,
       description: post.excerpt,
       images: [post.heroImage],
@@ -43,117 +72,178 @@ export default async function PostPage({ params }: PageProps) {
 
   const allPosts = getAllPosts();
   const relatedPosts = allPosts.filter((p) => p.slug !== post.slug).slice(0, 3);
+  const pageUrl = `https://tigyu-mens.vercel.app/posts/${post.slug}`;
+
+  // AI-SEO / GEO 向け Article ＆ ItemList (商品比較) 構造化データ
+  const articleJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": post.title,
+    "description": post.excerpt,
+    "image": [post.heroImage],
+    "datePublished": post.date.replace(/\./g, "-"),
+    "dateModified": post.date.replace(/\./g, "-"),
+    "author": {
+      "@type": "Person",
+      "name": "ゼロから始める垢抜けコスメ塾 塾長",
+      "url": "https://tigyu-mens.vercel.app/profile"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "もうチー牛とは呼ばせない！ ゼロから始める垢抜けコスメ塾",
+      "url": "https://tigyu-mens.vercel.app",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://thumbnail.image.rakuten.co.jp/@0_mall/menscosme-zigen/cabinet/product/6.jpg?_ex=600x600"
+      }
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": pageUrl
+    },
+    "about": {
+      "@type": "ItemList",
+      "name": `${post.title} 推奨アイテム比較リスト`,
+      "itemListElement": post.comparisonTable.map((item, index) => ({
+        "@type": "ListItem",
+        "position": index + 1,
+        "item": {
+          "@type": "Product",
+          "name": item.name,
+          "brand": {
+            "@type": "Brand",
+            "name": item.brand
+          },
+          "image": item.imageUrl,
+          "description": item.feature,
+          "offers": {
+            "@type": "Offer",
+            "priceCurrency": "JPY",
+            "price": item.price.replace(/[^0-9]/g, "") || "0",
+            "availability": "https://schema.org/InStock",
+            "url": item.affiliateUrl
+          }
+        }
+      }))
+    }
+  };
 
   return (
-    <article className="article-container">
-      {/* パンくずリスト */}
-      <nav className="article-breadcrumb">
-        <Link href="/">TOP</Link>
-        <span>&gt;</span>
-        <Link href={`/reviews?cat=${encodeURIComponent(post.category)}`}>
-          {post.category}
-        </Link>
-        <span>&gt;</span>
-        <span className="current">{post.title}</span>
-      </nav>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
+      />
+      <article className="article-container">
+        {/* パンくずリスト */}
+        <nav className="article-breadcrumb">
+          <Link href="/">TOP</Link>
+          <span>&gt;</span>
+          <Link href={`/reviews?cat=${encodeURIComponent(post.category)}`}>
+            {post.category}
+          </Link>
+          <span>&gt;</span>
+          <span className="current">{post.title}</span>
+        </nav>
 
-      {/* 記事ヘッダー */}
-      <header className="article-header">
-        <div className="article-meta">
-          <span className="cat-label">{post.category}</span>
-          <span>{post.date}</span>
-          <span>⏱ {post.readTime}</span>
-        </div>
-        <h1 className="article-title">{post.title}</h1>
-        <p className="article-lead">{post.excerpt}</p>
-      </header>
-
-      {/* 楽天APIから取得した商品の高画質アイキャッチ画像 */}
-      {post.heroImage && (
-        <div className="article-hero-wrap">
-          <img src={post.heroImage} alt={post.title} />
-        </div>
-      )}
-
-      {/* 記事メインコンテンツ */}
-      <div>
-        {/* 導入パート */}
-        <section className="article-section">
-          <h2 className="section-headline">
-            <span>🔥</span>
-            なぜ放置すると「足切り」されるのか？
-          </h2>
-          <p className="section-body">{post.intro}</p>
-          <div className="advice-box">
-            <span className="advice-title">【塾長からのアドバイス】</span>
-            <p className="advice-text">{post.problemStatement}</p>
+        {/* 記事ヘッダー */}
+        <header className="article-header">
+          <div className="article-meta">
+            <span className="cat-label">{post.category}</span>
+            <span>{post.date}</span>
+            <span>⏱ {post.readTime}</span>
           </div>
-        </section>
+          <h1 className="article-title">{post.title}</h1>
+          <p className="article-lead">{post.excerpt}</p>
+        </header>
 
-        {/* 楽天API高画質画像つき肌質別比較テーブル */}
-        <ComparisonTable products={post.comparisonTable} />
-
-        {/* まとめ・背中を押すメッセージ */}
-        <section className="article-section">
-          <h2 className="section-headline">
-            <span>🎯</span>
-            まとめ：今日から始めるアクションプラン
-          </h2>
-          <p className="section-body">{post.conclusion}</p>
-          <div className="callout-box">
-            <span className="callout-title">
-              迷ったらまずは「乾燥肌」または「オイリー肌」の自分に合う方を1つだけ試すこと！
-            </span>
-            <span className="callout-text">
-              完璧を目指さず、1つルーティンに加えるだけで清潔感は5割増しになります。
-            </span>
+        {/* 楽天APIから取得した商品の高画質アイキャッチ画像 */}
+        {post.heroImage && (
+          <div className="article-hero-wrap">
+            <img src={post.heroImage} alt={post.title} />
           </div>
-        </section>
+        )}
 
-        {/* タグ一覧 */}
-        <div className="tag-cloud">
-          {post.tags.map((tag) => (
-            <Link
-              key={tag}
-              href={`/reviews?tag=${encodeURIComponent(tag)}`}
-              className="tag-item"
-            >
-              {tag}
-            </Link>
-          ))}
-        </div>
-      </div>
+        {/* 記事メインコンテンツ */}
+        <div>
+          {/* 導入パート */}
+          <section className="article-section">
+            <h2 className="section-headline">
+              <span>🔥</span>
+              なぜ放置すると「足切り」されるのか？
+            </h2>
+            <p className="section-body">{post.intro}</p>
+            <div className="advice-box">
+              <span className="advice-title">【塾長からのアドバイス】</span>
+              <p className="advice-text">{post.problemStatement}</p>
+            </div>
+          </section>
 
-      {/* 関連記事 */}
-      {relatedPosts.length > 0 && (
-        <section className="related-section">
-          <h3 className="section-headline">
-            <span style={{ width: "4px", height: "16px", background: "var(--brand-accent)", display: "inline-block" }}></span>
-            あわせて読みたい検証記事
-          </h3>
-          <div className="related-grid">
-            {relatedPosts.map((rel) => (
+          {/* 楽天API高画質画像つき肌質別比較テーブル */}
+          <ComparisonTable products={post.comparisonTable} />
+
+          {/* まとめ・背中を押すメッセージ */}
+          <section className="article-section">
+            <h2 className="section-headline">
+              <span>🎯</span>
+              まとめ：今日から始めるアクションプラン
+            </h2>
+            <p className="section-body">{post.conclusion}</p>
+            <div className="callout-box">
+              <span className="callout-title">
+                迷ったらまずは「乾燥肌」または「オイリー肌」の自分に合う方を1つだけ試すこと！
+              </span>
+              <span className="callout-text">
+                完璧を目指さず、1つルーティンに加えるだけで清潔感は5割増しになります。
+              </span>
+            </div>
+          </section>
+
+          {/* タグ一覧 */}
+          <div className="tag-cloud">
+            {post.tags.map((tag) => (
               <Link
-                key={rel.slug}
-                href={`/posts/${rel.slug}`}
-                className="related-card"
+                key={tag}
+                href={`/reviews?tag=${encodeURIComponent(tag)}`}
+                className="tag-item"
               >
-                <div className="related-thumb">
-                  {rel.heroImage ? (
-                    <img src={rel.heroImage} alt={rel.title} />
-                  ) : (
-                    <div style={{ color: "var(--text-muted)", fontSize: "0.75rem" }}>NO IMG</div>
-                  )}
-                </div>
-                <div className="related-info">
-                  <span className="related-cat">{rel.category}</span>
-                  <h4 className="related-title">{rel.title}</h4>
-                </div>
+                {tag}
               </Link>
             ))}
           </div>
-        </section>
-      )}
-    </article>
+        </div>
+
+        {/* 関連記事 */}
+        {relatedPosts.length > 0 && (
+          <section className="related-section">
+            <h3 className="section-headline">
+              <span style={{ width: "4px", height: "16px", background: "var(--brand-accent)", display: "inline-block" }}></span>
+              あわせて読みたい検証記事
+            </h3>
+            <div className="related-grid">
+              {relatedPosts.map((rel) => (
+                <Link
+                  key={rel.slug}
+                  href={`/posts/${rel.slug}`}
+                  className="related-card"
+                >
+                  <div className="related-thumb">
+                    {rel.heroImage ? (
+                      <img src={rel.heroImage} alt={rel.title} />
+                    ) : (
+                      <div style={{ color: "var(--text-muted)", fontSize: "0.75rem" }}>NO IMG</div>
+                    )}
+                  </div>
+                  <div className="related-info">
+                    <span className="related-cat">{rel.category}</span>
+                    <h4 className="related-title">{rel.title}</h4>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </section>
+        )}
+      </article>
+    </>
   );
 }

@@ -215,6 +215,15 @@ def search_rakuten_items(keyword, hits=4):
                 if not img or "rakuten.co.jp" not in img:
                     continue
 
+                # 画像の生存確認（404・リンク切れアイテムを完全排除）
+                try:
+                    head_chk = requests.head(re.sub(r'\?_ex=[0-9]+x[0-9]+', '?_ex=600x600', img), headers={"User-Agent": "Mozilla/5.0"}, timeout=4)
+                    if head_chk.status_code != 200:
+                        print(f"[SKIP-BROKEN-IMG] {head_chk.status_code} for {img}")
+                        continue
+                except Exception:
+                    continue
+
                 img = re.sub(r'\?_ex=[0-9]+x[0-9]+', '?_ex=600x600', img)
                 price_val = item.get("itemPrice", 0)
                 price_str = f"¥{price_val:,}" if price_val else "オープン価格"
