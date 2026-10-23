@@ -416,7 +416,7 @@ AI特有の不自然な言い回し（「いかがでしたでしょうか」「
         "views": random.randint(1200, 3800)
     }
 
-    updated_posts = [new_post] + existing_posts[:49]
+    updated_posts = [new_post] + [p for p in existing_posts if p.get("slug") != new_post["slug"]]
     with open(DATA_FILE, "w", encoding="utf-8") as f:
         json.dump(updated_posts, f, ensure_ascii=False, indent=2)
 
