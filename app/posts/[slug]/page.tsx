@@ -80,6 +80,20 @@ export default async function PostPage({ params }: PageProps) {
   const relatedPosts = [...sameCategoryPosts, ...otherPosts].slice(0, 6);
   const pageUrl = `https://tigyu-mens.vercel.app/posts/${post.slug}`;
 
+  const faqList =
+    post.faqs && post.faqs.length > 0
+      ? post.faqs
+      : [
+          {
+            q: `${post.category}のアイテム選びで初心者が失敗しないコツは？`,
+            a: `${post.targetAudience}の方は、まず自分の肌質・目的タイプ（乾燥肌・脂性肌・混合肌・高機能）に合った処方を選ぶことが最重要です。本記事の比較表から自分のタイプに該当する1本を選び、最低2週間継続して様子を見ることで確実に清潔感が底上げされます。`,
+          },
+          {
+            q: "ドラッグストアの市販品とネット通販の専売品はどちらが良いですか？",
+            a: "コスパ重視のエントリーモデルなら市販品でも十分ですが、特有の悩み（頑固な毛穴黒ずみ、青髭、強い体臭、姿勢の歪みなど）を最短で解決したい場合は、有効成分や機能性が高設計されたネット通販の高評価アイテムを選ぶ方が結果的に安上がりで効果的です。",
+          },
+        ];
+
   // AI-SEO / GEO 向け Article ＆ ItemList ＆ BreadcrumbList ＆ FAQPage 構造化データ
   const articleJsonLd = {
     "@context": "https://schema.org",
@@ -146,7 +160,7 @@ export default async function PostPage({ params }: PageProps) {
                 "name": item.brand
               },
               "image": item.imageUrl,
-              "description": item.feature,
+              "description": item.deepReview || item.feature,
               "aggregateRating": {
                 "@type": "AggregateRating",
                 "ratingValue": item.rating || 4.5,
@@ -165,24 +179,14 @@ export default async function PostPage({ params }: PageProps) {
       },
       {
         "@type": "FAQPage",
-        "mainEntity": [
-          {
-            "@type": "Question",
-            "name": `${post.category}のアイテム選びで初心者が失敗しないコツは？`,
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": `${post.targetAudience}の方は、まず自分の肌質・タイプ（乾燥肌・脂性肌・混合肌・高機能）に合った処方を選ぶことが最重要です。本記事の比較表から自分のタイプに該当する1本を選び、最低2週間継続して様子を見ることで確実に清潔感が底上げされます。`
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "ドラッグストアの市販品とネット通販の専売品はどちらが良いですか？",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "コスパ重視のエントリーモデルなら市販品でも十分ですが、特有の悩み（頑固な毛穴黒ずみ、青髭、強い体臭、姿勢の歪みなど）を最短で解決したい場合は、有効成分が高配合されたネット通販の高評価アイテムを選ぶ方が結果的に安上がりで効果的です。"
-            }
+        "mainEntity": faqList.map((f) => ({
+          "@type": "Question",
+          "name": f.q,
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": f.a
           }
-        ]
+        }))
       }
     ]
   };
@@ -242,30 +246,87 @@ export default async function PostPage({ params }: PageProps) {
                   rel="noopener noreferrer"
                   className="quick-pick-pill"
                 >
-                  🏆 {item.targetSkin}枠：{item.name}（{item.price}）を見る →
+                  🏆 {item.targetSkin}枠：{item.brand} {item.name}（{item.price}）を見る →
                 </a>
               ))}
+            </div>
+            <div className="killer-toc-bar">
+              <span className="killer-toc-label">目次：</span>
+              <a href="#sec-why">1. 放置の危険性</a>
+              {post.selectionCriteria && post.selectionCriteria.length > 0 && (
+                <a href="#sec-criteria">2. 失敗しない選び方</a>
+              )}
+              <a href="#sec-compare">3. 厳選4選比較表</a>
+              <a href="#sec-deepdive">4. 徹底解剖レビュー</a>
+              {post.usageSteps && post.usageSteps.length > 0 && (
+                <a href="#sec-routine">5. 効果倍増の使い方</a>
+              )}
+              <a href="#sec-faq">Q&amp;A</a>
             </div>
           </div>
 
           {/* 導入パート */}
-          <section className="article-section">
+          <section id="sec-why" className="article-section">
             <h2 className="section-headline">
               <span>🔥</span>
               なぜ放置すると「足切り」されるのか？
             </h2>
             <p className="section-body">{post.intro}</p>
             <div className="advice-box">
-              <span className="advice-title">【塾長からのアドバイス】</span>
+              <span className="advice-title">【塾長からの警告とアドバイス】</span>
               <p className="advice-text">{post.problemStatement}</p>
             </div>
+
+            {post.beforeAfter && (
+              <div className="before-after-grid">
+                <div className="ba-card ba-before">
+                  <div className="ba-header">💀 放置したままの残酷な末路（BEFORE）</div>
+                  <ul className="ba-list">
+                    {post.beforeAfter.before.map((b, i) => (
+                      <li key={i}>✖ {b}</li>
+                    ))}
+                  </ul>
+                </div>
+                <div className="ba-card ba-after">
+                  <div className="ba-header">⚡ 今日からケアを始めた2週間後（AFTER）</div>
+                  <ul className="ba-list">
+                    {post.beforeAfter.after.map((a, i) => (
+                      <li key={i}>✔ {a}</li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            )}
           </section>
 
+          {/* 失敗しない選び方の3大鉄則 */}
+          {post.selectionCriteria && post.selectionCriteria.length > 0 && (
+            <section id="sec-criteria" className="article-section">
+              <h2 className="section-headline">
+                <span>🎯</span>
+                プロが教える！失敗しない選び方の3大鉄則
+              </h2>
+              <div className="criteria-list">
+                {post.selectionCriteria.map((c, i) => (
+                  <div key={i} className="criteria-card">
+                    <div className="criteria-num">POINT 0{i + 1}</div>
+                    <div className="criteria-content">
+                      <h3 className="criteria-title">{c.title}</h3>
+                      <p className="criteria-body">{c.body}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
+
           {/* 楽天API高画質画像つき肌質別比較テーブル */}
-          <ComparisonTable products={post.comparisonTable} />
+          <div id="sec-compare">
+            <ComparisonTable products={post.comparisonTable} />
+          </div>
 
           {/* 各アイテムの深掘り詳細レビューセクション */}
-          <section className="article-section">
+          <section id="sec-deepdive" className="article-section">
             <h2 className="section-headline">
               <span>🔍</span>
               【タイプ別】厳選4アイテムの徹底解剖＆選ぶべき理由
@@ -283,12 +344,23 @@ export default async function PostPage({ params }: PageProps) {
                   <h3 className="deep-dive-title">
                     {item.brand}｜{item.name}
                   </h3>
+                  {item.bestFor && (
+                    <div className="deep-dive-bestfor">
+                      🎯 <strong>こんな男子は迷わずコレ：</strong>{item.bestFor}
+                    </div>
+                  )}
                   <div className="deep-dive-grid">
                     <div className="deep-dive-img-box">
                       <img src={item.imageUrl} alt={item.name} loading="lazy" />
                     </div>
                     <div className="deep-dive-content">
                       <p className="deep-dive-feature">{item.feature}</p>
+                      {item.deepReview && (
+                        <div className="deep-dive-analysis">
+                          <span className="deep-dive-analysis-label">🔬 塾長の徹底解剖レビュー</span>
+                          <p>{item.deepReview}</p>
+                        </div>
+                      )}
                       <div className="deep-dive-pros-cons">
                         <div className="pros-text">
                           <strong>◎ 選ぶべきメリット：</strong>
@@ -300,7 +372,12 @@ export default async function PostPage({ params }: PageProps) {
                         </div>
                       </div>
                       <div className="deep-dive-Action">
-                        <span className="deep-dive-price">参考価格：{item.price}</span>
+                        <div>
+                          <span className="deep-dive-price">参考価格：{item.price}</span>
+                          {item.dailyCost && (
+                            <span className="deep-dive-daily">💡 {item.dailyCost}</span>
+                          )}
+                        </div>
                         <a
                           href={item.affiliateUrl}
                           target="_blank"
@@ -317,29 +394,44 @@ export default async function PostPage({ params }: PageProps) {
             </div>
           </section>
 
+          {/* 効果を200%引き出す黄金実践ルーティン */}
+          {post.usageSteps && post.usageSteps.length > 0 && (
+            <section id="sec-routine" className="article-section">
+              <h2 className="section-headline">
+                <span>⚡</span>
+                効果を200%引き出す！朝・夜の黄金実践3ステップ
+              </h2>
+              <div className="routine-steps">
+                {post.usageSteps.map((st, i) => (
+                  <div key={i} className="routine-step-card">
+                    <div className="routine-step-badge">{st.step}</div>
+                    <div className="routine-step-main">
+                      <h3 className="routine-step-title">{st.title}</h3>
+                      <p className="routine-step-desc">{st.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
+
           {/* よくある質問 (FAQ) セクション */}
-          <section className="article-section">
+          <section id="sec-faq" className="article-section">
             <h2 className="section-headline">
               <span>💡</span>
               よくある質問（Q&amp;A）
             </h2>
             <div className="faq-list">
-              <div className="faq-item">
-                <div className="faq-q">
-                  Q1. {post.category}のアイテム選びで初心者が失敗しないコツは？
+              {faqList.map((f, i) => (
+                <div key={i} className="faq-item">
+                  <div className="faq-q">
+                    Q{i + 1}. {f.q}
+                  </div>
+                  <div className="faq-a">
+                    A. {f.a}
+                  </div>
                 </div>
-                <div className="faq-a">
-                  A. <strong>{post.targetAudience}</strong>の方は、まず自分の肌質・目的タイプ（乾燥肌・脂性肌・混合肌・高機能）に合った処方を選ぶことが最重要です。本記事の比較表から自分のタイプに該当する1本を選び、最低2週間継続して様子を見ることで確実に清潔感が底上げされます。
-                </div>
-              </div>
-              <div className="faq-item">
-                <div className="faq-q">
-                  Q2. ドラッグストアの市販品とネット通販の専売品はどちらが良いですか？
-                </div>
-                <div className="faq-a">
-                  A. コスパ重視のエントリーモデルなら市販品でも十分ですが、特有の悩み（頑固な毛穴黒ずみ、青髭、強い体臭、姿勢の歪みなど）を最短で解決したい場合は、有効成分が高配合されたネット通販の高評価アイテムを選ぶ方が結果的に安上がりで効果的です。
-                </div>
-              </div>
+              ))}
             </div>
           </section>
 
@@ -350,6 +442,17 @@ export default async function PostPage({ params }: PageProps) {
               まとめ：今日から始めるアクションプラン
             </h2>
             <p className="section-body">{post.conclusion}</p>
+
+            {post.synergyTip && (
+              <div className="synergy-box">
+                <div className="synergy-badge">🔥 相乗効果で清潔感200%UP！最強の合わせ技</div>
+                <p className="synergy-text">{post.synergyTip.text}</p>
+                <Link href={`/posts/${post.synergyTip.targetSlug}`} className="synergy-link">
+                  👉 あわせて読む：{post.synergyTip.targetTitle} →
+                </Link>
+              </div>
+            )}
+
             <div className="callout-box">
               <span className="callout-title">
                 迷ったらまずは「乾燥肌」または「オイリー肌」の自分に合う方を1つだけ試すこと！

@@ -42,8 +42,16 @@ export default function ComparisonTable({ products }: Props) {
                 <span className="item-brand">{p.brand}</span>
                 <h4 className="comp-card-name">{p.name}</h4>
                 <span className="comp-card-price">{p.price}</span>
+                {p.dailyCost && (
+                  <span className="comp-card-daily">{p.dailyCost}</span>
+                )}
               </div>
             </div>
+            {p.bestFor && (
+              <div className="comp-card-bestfor">
+                🎯 <strong>おすすめな人：</strong>{p.bestFor}
+              </div>
+            )}
             <p className="comp-card-feature">{p.feature}</p>
             <div className="pros-cons-box" style={{ marginBottom: "14px" }}>
               <div className="pros-text">
@@ -107,9 +115,19 @@ export default function ComparisonTable({ products }: Props) {
                 </td>
                 <td>
                   <span className="badge-skin">{p.targetSkin}</span>
+                  {p.bestFor && (
+                    <div style={{ fontSize: "0.72rem", color: "#e4e4e7", marginTop: "6px", lineHeight: "1.4" }}>
+                      🎯 {p.bestFor}
+                    </div>
+                  )}
                 </td>
                 <td style={{ color: "var(--text-muted)", fontSize: "0.8rem", maxWidth: "260px", lineHeight: "1.5" }}>
                   {p.feature}
+                  {p.dailyCost && (
+                    <div style={{ fontSize: "0.73rem", color: "var(--brand-accent)", marginTop: "6px", fontWeight: 700 }}>
+                      💡 {p.dailyCost}
+                    </div>
+                  )}
                 </td>
                 <td>
                   <div className="pros-cons-box">

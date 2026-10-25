@@ -11,6 +11,36 @@ export interface ProductComparison {
   affiliateUrl: string;
   rating: number;
   reviewCount: number;
+  bestFor?: string;
+  deepReview?: string;
+  dailyCost?: string;
+}
+
+export interface SelectionCriterion {
+  title: string;
+  body: string;
+}
+
+export interface UsageStep {
+  step: string;
+  title: string;
+  description: string;
+}
+
+export interface ArticleFaq {
+  q: string;
+  a: string;
+}
+
+export interface BeforeAfterComparison {
+  before: string[];
+  after: string[];
+}
+
+export interface SynergyRecommendation {
+  text: string;
+  targetSlug: string;
+  targetTitle: string;
 }
 
 export interface Post {
@@ -29,4 +59,9 @@ export interface Post {
   comparisonTable: ProductComparison[];
   conclusion: string;
   views?: number;
+  beforeAfter?: BeforeAfterComparison;
+  selectionCriteria?: SelectionCriterion[];
+  usageSteps?: UsageStep[];
+  faqs?: ArticleFaq[];
+  synergyTip?: SynergyRecommendation;
 }
