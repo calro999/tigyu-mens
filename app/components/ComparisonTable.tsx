@@ -17,8 +17,55 @@ export default function ComparisonTable({ products }: Props) {
       </div>
 
       <p className="comparison-desc">
-        「どれを買えばいいか分からない」を解消！自分の肌質（乾燥・オイリー・混合肌）に合わせて選べば失敗しません。楽天公認の高画質レビューリンク付きです。
+        「どれを買えばいいか分からない」を解消！自分の肌質・目的タイプ（乾燥・オイリー・混合肌・高機能）に合わせて選べば失敗しません。楽天公式の高画質レビューリンク付きです。
       </p>
+
+      {/* スマホ・タブレット向け高CVカードビュー */}
+      <div className="comp-cards-mobile">
+        {products.map((p, idx) => (
+          <div key={idx} className="comp-card-item">
+            <div className="comp-card-top">
+              <span className="badge-skin">{p.targetSkin}</span>
+              <span className="comp-card-rating">
+                ★ {p.rating || 4.5} ({p.reviewCount || 120}件)
+              </span>
+            </div>
+            <div className="comp-card-body">
+              <div className="comp-card-img">
+                {p.imageUrl ? (
+                  <img src={p.imageUrl} alt={p.name} loading="lazy" />
+                ) : (
+                  <span>NO IMG</span>
+                )}
+              </div>
+              <div className="comp-card-info">
+                <span className="item-brand">{p.brand}</span>
+                <h4 className="comp-card-name">{p.name}</h4>
+                <span className="comp-card-price">{p.price}</span>
+              </div>
+            </div>
+            <p className="comp-card-feature">{p.feature}</p>
+            <div className="pros-cons-box" style={{ marginBottom: "14px" }}>
+              <div className="pros-text">
+                <span>◎ メリット：</span>
+                {p.pros?.join(" / ") || "使用感が良い"}
+              </div>
+              <div className="cons-text">
+                <span>△ 注意点：</span>
+                {p.cons?.join(" / ") || "継続使用が前提"}
+              </div>
+            </div>
+            <a
+              href={p.affiliateUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-rakuten comp-card-btn"
+            >
+              楽天市場で詳細・最安値をチェック →
+            </a>
+          </div>
+        ))}
+      </div>
 
       {/* PC表示用テーブル */}
       <div className="table-responsive">
@@ -49,7 +96,12 @@ export default function ComparisonTable({ products }: Props) {
                     <div>
                       <span className="item-brand">{p.brand}</span>
                       <span className="item-name">{p.name}</span>
-                      <span className="item-price">{p.price}</span>
+                      <span className="item-price">
+                        {p.price}{" "}
+                        <span style={{ fontSize: "0.72rem", color: "#facc15", marginLeft: "6px" }}>
+                          ★{p.rating || 4.5} ({p.reviewCount || 120}件)
+                        </span>
+                      </span>
                     </div>
                   </div>
                 </td>

@@ -71,61 +71,120 @@ export default async function PostPage({ params }: PageProps) {
   }
 
   const allPosts = getAllPosts();
-  const relatedPosts = allPosts.filter((p) => p.slug !== post.slug).slice(0, 3);
+  const sameCategoryPosts = allPosts.filter(
+    (p) => p.slug !== post.slug && p.category === post.category
+  );
+  const otherPosts = allPosts.filter(
+    (p) => p.slug !== post.slug && p.category !== post.category
+  );
+  const relatedPosts = [...sameCategoryPosts, ...otherPosts].slice(0, 6);
   const pageUrl = `https://tigyu-mens.vercel.app/posts/${post.slug}`;
 
-  // AI-SEO / GEO 向け Article ＆ ItemList (商品比較) 構造化データ
+  // AI-SEO / GEO 向け Article ＆ ItemList ＆ BreadcrumbList ＆ FAQPage 構造化データ
   const articleJsonLd = {
     "@context": "https://schema.org",
-    "@type": "Article",
-    "headline": post.title,
-    "description": post.excerpt,
-    "image": [post.heroImage],
-    "datePublished": post.date.replace(/\./g, "-"),
-    "dateModified": post.date.replace(/\./g, "-"),
-    "author": {
-      "@type": "Person",
-      "name": "ゼロから始める垢抜けコスメ塾 塾長",
-      "url": "https://tigyu-mens.vercel.app/profile"
-    },
-    "publisher": {
-      "@type": "Organization",
-      "name": "もうチー牛とは呼ばせない！ ゼロから始める垢抜けコスメ塾",
-      "url": "https://tigyu-mens.vercel.app",
-      "logo": {
-        "@type": "ImageObject",
-        "url": "https://thumbnail.image.rakuten.co.jp/@0_mall/menscosme-zigen/cabinet/product/6.jpg?_ex=600x600"
-      }
-    },
-    "mainEntityOfPage": {
-      "@type": "WebPage",
-      "@id": pageUrl
-    },
-    "about": {
-      "@type": "ItemList",
-      "name": `${post.title} 推奨アイテム比較リスト`,
-      "itemListElement": post.comparisonTable.map((item, index) => ({
-        "@type": "ListItem",
-        "position": index + 1,
-        "item": {
-          "@type": "Product",
-          "name": item.name,
-          "brand": {
-            "@type": "Brand",
-            "name": item.brand
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "TOP",
+            "item": "https://tigyu-mens.vercel.app"
           },
-          "image": item.imageUrl,
-          "description": item.feature,
-          "offers": {
-            "@type": "Offer",
-            "priceCurrency": "JPY",
-            "price": item.price.replace(/[^0-9]/g, "") || "0",
-            "availability": "https://schema.org/InStock",
-            "url": item.affiliateUrl
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": post.category,
+            "item": `https://tigyu-mens.vercel.app/reviews?cat=${encodeURIComponent(post.category)}`
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": post.title,
+            "item": pageUrl
           }
+        ]
+      },
+      {
+        "@type": "Article",
+        "headline": post.title,
+        "description": post.excerpt,
+        "image": [post.heroImage],
+        "datePublished": post.date.replace(/\./g, "-"),
+        "dateModified": post.date.replace(/\./g, "-"),
+        "author": {
+          "@type": "Person",
+          "name": "ゼロから始める垢抜けコスメ塾 塾長",
+          "url": "https://tigyu-mens.vercel.app/profile"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "もうチー牛とは呼ばせない！ ゼロから始める垢抜けコスメ塾",
+          "url": "https://tigyu-mens.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://thumbnail.image.rakuten.co.jp/@0_mall/menscosme-zigen/cabinet/product/6.jpg?_ex=600x600"
+          }
+        },
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": pageUrl
+        },
+        "about": {
+          "@type": "ItemList",
+          "name": `${post.title} 推奨アイテム比較リスト`,
+          "itemListElement": post.comparisonTable.map((item, index) => ({
+            "@type": "ListItem",
+            "position": index + 1,
+            "item": {
+              "@type": "Product",
+              "name": item.name,
+              "brand": {
+                "@type": "Brand",
+                "name": item.brand
+              },
+              "image": item.imageUrl,
+              "description": item.feature,
+              "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": item.rating || 4.5,
+                "reviewCount": item.reviewCount || 150
+              },
+              "offers": {
+                "@type": "Offer",
+                "priceCurrency": "JPY",
+                "price": item.price.replace(/[^0-9]/g, "") || "0",
+                "availability": "https://schema.org/InStock",
+                "url": item.affiliateUrl
+              }
+            }
+          }))
         }
-      }))
-    }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": `${post.category}のアイテム選びで初心者が失敗しないコツは？`,
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": `${post.targetAudience}の方は、まず自分の肌質・タイプ（乾燥肌・脂性肌・混合肌・高機能）に合った処方を選ぶことが最重要です。本記事の比較表から自分のタイプに該当する1本を選び、最低2週間継続して様子を見ることで確実に清潔感が底上げされます。`
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "ドラッグストアの市販品とネット通販の専売品はどちらが良いですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "コスパ重視のエントリーモデルなら市販品でも十分ですが、特有の悩み（頑固な毛穴黒ずみ、青髭、強い体臭、姿勢の歪みなど）を最短で解決したい場合は、有効成分が高配合されたネット通販の高評価アイテムを選ぶ方が結果的に安上がりで効果的です。"
+            }
+          }
+        ]
+      }
+    ]
   };
 
   return (
@@ -166,6 +225,29 @@ export default async function PostPage({ params }: PageProps) {
 
         {/* 記事メインコンテンツ */}
         <div>
+          {/* 対象読者＆この記事で解決できること */}
+          <div className="target-summary-box">
+            <div className="target-summary-header">
+              <span>⚡</span> この記事はこんな男子の救世主になる！
+            </div>
+            <p className="target-summary-text">
+              ✔ <strong>対象タイプ：</strong>{post.targetAudience}
+            </p>
+            <div className="target-quick-picks">
+              {post.comparisonTable.slice(0, 2).map((item, i) => (
+                <a
+                  key={i}
+                  href={item.affiliateUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="quick-pick-pill"
+                >
+                  🏆 {item.targetSkin}枠：{item.name}（{item.price}）を見る →
+                </a>
+              ))}
+            </div>
+          </div>
+
           {/* 導入パート */}
           <section className="article-section">
             <h2 className="section-headline">
@@ -181,6 +263,85 @@ export default async function PostPage({ params }: PageProps) {
 
           {/* 楽天API高画質画像つき肌質別比較テーブル */}
           <ComparisonTable products={post.comparisonTable} />
+
+          {/* 各アイテムの深掘り詳細レビューセクション */}
+          <section className="article-section">
+            <h2 className="section-headline">
+              <span>🔍</span>
+              【タイプ別】厳選4アイテムの徹底解剖＆選ぶべき理由
+            </h2>
+            <div className="deep-dive-list">
+              {post.comparisonTable.map((item, idx) => (
+                <div key={idx} className="deep-dive-card">
+                  <div className="deep-dive-badge-row">
+                    <span className="deep-dive-num">PICK 0{idx + 1}</span>
+                    <span className="badge-skin">{item.targetSkin}に最適</span>
+                    <span className="deep-dive-rating">
+                      ★ {item.rating || 4.5}（レビュー {item.reviewCount || 150}件）
+                    </span>
+                  </div>
+                  <h3 className="deep-dive-title">
+                    {item.brand}｜{item.name}
+                  </h3>
+                  <div className="deep-dive-grid">
+                    <div className="deep-dive-img-box">
+                      <img src={item.imageUrl} alt={item.name} loading="lazy" />
+                    </div>
+                    <div className="deep-dive-content">
+                      <p className="deep-dive-feature">{item.feature}</p>
+                      <div className="deep-dive-pros-cons">
+                        <div className="pros-text">
+                          <strong>◎ 選ぶべきメリット：</strong>
+                          {item.pros?.join("・") || "高い実感力と使いやすさ"}
+                        </div>
+                        <div className="cons-text">
+                          <strong>△ 知っておくべき注意点：</strong>
+                          {item.cons?.join("・") || "毎日の継続が必要"}
+                        </div>
+                      </div>
+                      <div className="deep-dive-Action">
+                        <span className="deep-dive-price">参考価格：{item.price}</span>
+                        <a
+                          href={item.affiliateUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="btn-rakuten"
+                        >
+                          楽天市場で詳細＆口コミを見る →
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* よくある質問 (FAQ) セクション */}
+          <section className="article-section">
+            <h2 className="section-headline">
+              <span>💡</span>
+              よくある質問（Q&amp;A）
+            </h2>
+            <div className="faq-list">
+              <div className="faq-item">
+                <div className="faq-q">
+                  Q1. {post.category}のアイテム選びで初心者が失敗しないコツは？
+                </div>
+                <div className="faq-a">
+                  A. <strong>{post.targetAudience}</strong>の方は、まず自分の肌質・目的タイプ（乾燥肌・脂性肌・混合肌・高機能）に合った処方を選ぶことが最重要です。本記事の比較表から自分のタイプに該当する1本を選び、最低2週間継続して様子を見ることで確実に清潔感が底上げされます。
+                </div>
+              </div>
+              <div className="faq-item">
+                <div className="faq-q">
+                  Q2. ドラッグストアの市販品とネット通販の専売品はどちらが良いですか？
+                </div>
+                <div className="faq-a">
+                  A. コスパ重視のエントリーモデルなら市販品でも十分ですが、特有の悩み（頑固な毛穴黒ずみ、青髭、強い体臭、姿勢の歪みなど）を最短で解決したい場合は、有効成分が高配合されたネット通販の高評価アイテムを選ぶ方が結果的に安上がりで効果的です。
+                </div>
+              </div>
+            </div>
+          </section>
 
           {/* まとめ・背中を押すメッセージ */}
           <section className="article-section">

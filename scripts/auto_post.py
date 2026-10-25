@@ -29,6 +29,8 @@ CACHE_FILE = "posted_cache.txt"
 
 # ユーザー規則に基づく最新対応Geminiモデルローテーション（1.5系は完全廃止のため除外）
 GEMINI_ROTATION_MODELS = [
+    "gemini-flash-lite-latest",
+    "gemini-3.1-flash-lite",
     "gemini-2.5-flash",
     "gemini-3.5-flash-lite",
     "gemini-3.5-flash",
@@ -163,6 +165,86 @@ EXPANDED_TOPICS = [
         "theme": "袖まくりした瞬間に女子が惚れる！男らしい血管と太い前腕を作るハンドグリップ比較",
         "targetAudience": "手首が細く弱々しく見られがちで、たくましい腕を手に入れたい男子",
         "fallback_intro": "男の身体で女子が思わず見てしまうパーツ第1位は『血管が浮き出たたくましい前腕』だ。負荷調整可能なハンドグリップで自宅でテレビを見ながら握り込むだけで、男らしい前腕の筋肉と浮き出た血管が手に入るぞ。"
+    },
+    {
+        "keyword": "メンズ クレンジングオイル 毛穴 黒ずみ 角栓",
+        "category": "スキンケア・洗顔",
+        "categoryEn": "skincare",
+        "slug": "mens-cleansing-oil-blackhead-pore",
+        "tag": "#クレンジングオイル",
+        "theme": "洗顔だけでは落ちない酸化皮脂・黒ずみ角栓を溶かし出す！男のための毛穴クレンジングオイル比較",
+        "targetAudience": "小鼻の黒ずみやザラつきが洗顔しても取れない男子",
+        "fallback_intro": "男の頑固な黒ずみ角栓は『油性の汚れ』だ。普通の洗顔フォームだけで落とそうとしても一生落ちない。週に数回、入浴中にクレンジングオイルで優しくクルクル馴染ませるだけで、詰まった角栓が驚くほどスルッと溶け出すぞ。"
+    },
+    {
+        "keyword": "メンズ 導入美容液 ブースター セラム 浸透",
+        "category": "スキンケア・洗顔",
+        "categoryEn": "skincare",
+        "slug": "mens-booster-serum-skin-penetration",
+        "tag": "#導入美容液",
+        "theme": "化粧水がグングン吸い込まれる！ゴワつく男肌を柔らかくほぐす導入美容液（ブースター）比較",
+        "targetAudience": "化粧水を塗っても肌表面で弾かれてしまい、インナードライに悩む男子",
+        "fallback_intro": "男性の角質層は女性より厚く硬いため、そのまま化粧水を塗っても表面で蒸発するだけだ。洗顔直後のまっさらな肌に導入美容液を1プッシュ仕込むことで、その後のスキンケアの浸透力が別次元に跳ね上がる。"
+    },
+    {
+        "keyword": "メンズ 寝癖直し ウォーター ヘアミスト 朝",
+        "category": "ヘア・眉毛セット",
+        "categoryEn": "hair-brows",
+        "slug": "mens-bedhead-hair-water-mist",
+        "tag": "#寝癖直しウォーター",
+        "theme": "朝の爆発頭を30秒でリセット！ドライヤー熱から髪を守りサロン帰りのまとまりを作る寝癖直しミスト比較",
+        "targetAudience": "毎朝の寝癖がひどく、水で濡らしてもすぐにハネてしまう男子",
+        "fallback_intro": "朝起きて水道水で髪を濡らしているだけだと、キューティクルが開きっぱなしになりパサつきと広がりの原因になる。浸透性の高い補修成分入りヘアウォーターを根元から吹きかけてブローするだけで、ワックスのノリが劇的に変わるぞ。"
+    },
+    {
+        "keyword": "メンズ カールアイロン ヘアアイロン 15mm ストレート",
+        "category": "ヘア・眉毛セット",
+        "categoryEn": "hair-brows",
+        "slug": "mens-mini-hair-iron-15mm-short",
+        "tag": "#メンズヘアアイロン",
+        "theme": "短髪・直毛チー牛でも美容室セットが完全再現！小回り抜群の15mmプレートメンズヘアアイロン比較",
+        "targetAudience": "直毛すぎてワックスをつけてもツンツン立つだけ、またはくせ毛で前髪がうねる男子",
+        "fallback_intro": "一般的な太いヘアアイロンは男の短い髪には使いづらく、おでこを火傷しやすい。指先感覚で毛束をつまめるプレート幅15mm前後のスリムアイロンなら、王道マッシュからセンターパート、無造作パーマ風まで自由自在に作れる。"
+    },
+    {
+        "keyword": "メンズ デオドラント クリーム 脇 制汗 医薬部外品",
+        "category": "ニオイ・体臭対策",
+        "categoryEn": "cleanliness",
+        "slug": "mens-medicated-deodorant-cream-armpit",
+        "tag": "#デオドラントクリーム",
+        "theme": "スプレーでは防げない濃厚ワキ臭・汗ジミを密閉ブロック！朝塗れば夜まで無臭が続く薬用デオドラントクリーム比較",
+        "targetAudience": "市販の制汗スプレーでは夕方にニオイが復活してしまう、ワキ汗が多い男子",
+        "fallback_intro": "ガス式の制汗スプレーは肌表面に軽く乗るだけなので、汗をかくとすぐに流れ落ちてしまう。本気でニオイをゼロにしたいなら、毛穴にピタッと密着して殺菌＆制汗成分を留め続ける高密着クリームタイプ一択だ。"
+    },
+    {
+        "keyword": "メンズ 洗濯洗剤 消臭 部屋干し 加齢臭 体臭",
+        "category": "ニオイ・体臭対策",
+        "categoryEn": "cleanliness",
+        "slug": "mens-laundry-detergent-odor-removal",
+        "tag": "#消臭洗濯洗剤",
+        "theme": "Tシャツの染み付いた生乾き臭・男脂臭を繊維の奥から分解！清潔感を服から纏う最強メンズ向け消臭洗剤比較",
+        "targetAudience": "洗ったはずの服を着て汗をかくと、雑巾のような臭いが復活して困っている一人暮らし男子",
+        "fallback_intro": "体をいくら清潔に洗っても、着ているシャツの繊維に酸化皮脂やモラクセラ菌が残っていれば、体温で温まった瞬間に悪臭が放たれる。男の頑固な皮脂汚れと菌のバイオフィルムを根こそぎ破壊する高機能洗剤に今すぐ切り替えろ。"
+    },
+    {
+        "keyword": "メンズ 着圧ソックス むくみ 疲労回復 ふくらはぎ",
+        "category": "ボディ・姿勢改善",
+        "categoryEn": "body-posture",
+        "slug": "mens-compression-recovery-socks",
+        "tag": "#着圧ソックス",
+        "theme": "立ち仕事・デスクワークでパンパンの脚を翌朝スッキリ！血行を促進して足取りを軽くするメンズ着圧ソックス比較",
+        "targetAudience": "夕方になるとふくらはぎが重だるく、足のむくみや疲れが翌朝まで残る男子",
+        "fallback_intro": "ふくらはぎは『第二の心臓』だ。ここがむくんで血流が滞ると、全身の疲労感が抜けないだけでなく下半身が太く鈍重に見える。段階着圧設計のメンズ用ソックスを履いて寝るだけで、翌朝の脚の軽さに驚くはずだ。"
+    },
+    {
+        "keyword": "メンズ ケトルベル ダンベル 体幹 全身筋トレ",
+        "category": "ボディ・姿勢改善",
+        "categoryEn": "body-posture",
+        "slug": "mens-kettlebell-home-core-workout",
+        "tag": "#ケトルベル",
+        "theme": "1日5分のスイングで脂肪燃焼＆体幹強化！省スペースで逆三角形の男らしい背中と肩を作るケトルベル比較",
+        "targetAudience": "有酸素運動と筋トレを同時に効率よく行い、引き締まった細マッチョ体型を作りたい男子",
+        "fallback_intro": "普通のダンベルと違い、重心が離れた位置にあるケトルベルは、振るだけで腹筋・背筋・お尻・肩の筋肉を連動して鍛え上げる最強の時短ギアだ。部屋の隅に置いても邪魔にならず、最短で頼りがいのあるシルエットを作れるぞ。"
     }
 ]
 
@@ -216,15 +298,16 @@ def search_rakuten_items(keyword, hits=4):
                     continue
 
                 # 画像の生存確認（404・リンク切れアイテムを完全排除）
+                img = re.sub(r'\?_ex=[0-9]+x[0-9]+', '?_ex=600x600', img)
+                if "?_ex=" not in img:
+                    img += "?_ex=600x600"
                 try:
-                    head_chk = requests.head(re.sub(r'\?_ex=[0-9]+x[0-9]+', '?_ex=600x600', img), headers={"User-Agent": "Mozilla/5.0"}, timeout=4)
-                    if head_chk.status_code != 200:
-                        print(f"[SKIP-BROKEN-IMG] {head_chk.status_code} for {img}")
+                    get_chk = requests.get(img, stream=True, headers={"User-Agent": "Mozilla/5.0"}, timeout=3)
+                    if get_chk.status_code != 200:
+                        print(f"[SKIP-BROKEN-IMG] {get_chk.status_code} for {img}")
                         continue
                 except Exception:
                     continue
-
-                img = re.sub(r'\?_ex=[0-9]+x[0-9]+', '?_ex=600x600', img)
                 price_val = item.get("itemPrice", 0)
                 price_str = f"¥{price_val:,}" if price_val else "オープン価格"
 

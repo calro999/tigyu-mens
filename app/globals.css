@@ -1369,3 +1369,258 @@ footer {
     transform: translateY(-2px);
     box-shadow: 0 6px 18px rgba(204, 255, 0, 0.35);
 }
+
+/* ========================================================
+   High-CV Article Enhancements & Responsive Comparison Cards
+======================================================== */
+.target-summary-box {
+    background: linear-gradient(135deg, rgba(204, 255, 0, 0.08) 0%, rgba(24, 24, 27, 0.95) 100%);
+    border: 1px solid var(--brand-accent);
+    border-radius: var(--radius-lg);
+    padding: 22px 24px;
+    margin-bottom: 30px;
+}
+.target-summary-header {
+    font-size: 1rem;
+    font-weight: 900;
+    color: var(--brand-accent);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.target-summary-text {
+    font-size: 0.9rem;
+    color: var(--text-main);
+    margin: 0 0 14px 0;
+    line-height: 1.6;
+}
+.target-quick-picks {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+.quick-pick-pill {
+    background-color: var(--bg-base);
+    border: 1px solid var(--border-light);
+    color: var(--text-main);
+    font-size: 0.78rem;
+    font-weight: 800;
+    padding: 8px 14px;
+    border-radius: var(--radius-sm);
+    display: inline-block;
+}
+.quick-pick-pill:hover {
+    border-color: var(--brand-accent);
+    color: var(--brand-accent);
+    transform: translateY(-1px);
+}
+
+/* Mobile Comparison Cards (Visible on < 768px, hidden on Desktop) */
+.comp-cards-mobile {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 10px;
+}
+@media (min-width: 768px) {
+    .comp-cards-mobile {
+        display: none;
+    }
+}
+@media (max-width: 767px) {
+    .table-responsive {
+        display: none;
+    }
+}
+.comp-card-item {
+    background-color: var(--bg-base);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-md);
+    padding: 16px;
+}
+.comp-card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+.comp-card-rating {
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: #facc15;
+}
+.comp-card-body {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    margin-bottom: 12px;
+}
+.comp-card-img {
+    width: 80px;
+    height: 80px;
+    background-color: #000;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+.comp-card-img img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+.comp-card-name {
+    font-size: 0.95rem;
+    font-weight: 900;
+    color: var(--text-main);
+    margin: 2px 0 4px 0;
+    line-height: 1.35;
+}
+.comp-card-price {
+    font-size: 0.9rem;
+    font-weight: 900;
+    color: var(--brand-accent);
+}
+.comp-card-feature {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    line-height: 1.55;
+    margin: 0 0 12px 0;
+}
+.comp-card-btn {
+    width: 100%;
+    text-align: center;
+    padding: 11px 16px;
+    font-size: 0.85rem;
+}
+
+/* Deep Dive Product Review Cards */
+.deep-dive-list {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+.deep-dive-card {
+    background-color: var(--bg-base);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 22px;
+    transition: var(--transition);
+}
+.deep-dive-card:hover {
+    border-color: var(--border-light);
+}
+.deep-dive-badge-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+.deep-dive-num {
+    background-color: var(--text-main);
+    color: #000;
+    font-size: 0.72rem;
+    font-weight: 900;
+    padding: 3px 8px;
+    border-radius: var(--radius-sm);
+}
+.deep-dive-rating {
+    font-size: 0.78rem;
+    font-weight: bold;
+    color: #facc15;
+    margin-left: auto;
+}
+.deep-dive-title {
+    font-size: 1.15rem;
+    font-weight: 900;
+    color: var(--text-main);
+    margin: 0 0 16px 0;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border-color);
+    line-height: 1.4;
+}
+.deep-dive-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 18px;
+    align-items: center;
+}
+@media (min-width: 640px) {
+    .deep-dive-grid {
+        grid-template-columns: 160px 1fr;
+    }
+}
+.deep-dive-img-box {
+    width: 100%;
+    height: 160px;
+    background-color: #000;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding: 8px;
+}
+.deep-dive-img-box img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+.deep-dive-feature {
+    font-size: 0.9rem;
+    line-height: 1.7;
+    color: var(--text-main);
+    margin: 0 0 14px 0;
+}
+.deep-dive-pros-cons {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    font-size: 0.8rem;
+    line-height: 1.6;
+    margin-bottom: 16px;
+}
+.deep-dive-Action {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+.deep-dive-price {
+    font-size: 0.95rem;
+    font-weight: 900;
+    color: var(--text-main);
+}
+
+/* FAQ Section */
+.faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+.faq-item {
+    background-color: var(--bg-base);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 18px 20px;
+}
+.faq-q {
+    font-size: 0.95rem;
+    font-weight: 900;
+    color: var(--brand-accent);
+    margin-bottom: 8px;
+    line-height: 1.4;
+}
+.faq-a {
+    font-size: 0.88rem;
+    color: var(--text-main);
+    line-height: 1.7;
+}

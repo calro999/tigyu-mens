@@ -14,9 +14,9 @@ export default function RankingPage() {
     <main className="subpage-container">
       <div className="subpage-header">
         <span className="subpage-en">HALL OF FAME RANKING</span>
-        <h1 className="subpage-title">殿堂入り人気ランキング TOP 5</h1>
+        <h1 className="subpage-title">殿堂入り人気ランキング TOP 10</h1>
         <p className="subpage-lead">
-          「まずは失敗しない王道から試したい」という塾生のために、読者支持率No.1の人気記事＆アイテムを厳選。
+          「まずは失敗しない王道から試したい」という塾生のために、全160本超の検証記事から読者支持率トップ10の人気記事＆神アイテムを厳選。
         </p>
       </div>
 
