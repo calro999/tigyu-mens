@@ -652,7 +652,7 @@ section {
 }
 .comp-table {
     width: 100%;
-    min-width: 920px;
+    min-width: 980px;
     border-collapse: collapse;
     font-size: 0.85rem;
     text-align: left;
@@ -733,15 +733,19 @@ section {
 .comp-table-feature-cell {
     color: var(--text-muted);
     font-size: 0.82rem;
-    min-width: 260px;
-    max-width: 320px;
+    min-width: 280px;
+    max-width: 380px;
     line-height: 1.6;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 .pros-cons-box {
     font-size: 0.75rem;
     line-height: 1.5;
-    min-width: 200px;
-    max-width: 240px;
+    min-width: 220px;
+    max-width: 280px;
 }
 .pros-text {
     color: #4ade80;
