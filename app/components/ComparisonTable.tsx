@@ -69,7 +69,7 @@ export default function ComparisonTable({ products }: Props) {
               rel="noopener noreferrer"
               className="btn-rakuten comp-card-btn"
             >
-              楽天市場で詳細・最安値をチェック →
+              {p.affiliateUrl.includes("yahoo") ? "Yahoo!公式ストアで詳細＆最安値をチェック →" : "楽天市場で詳細・最安値をチェック →"}
             </a>
           </div>
         ))}
@@ -148,7 +148,7 @@ export default function ComparisonTable({ products }: Props) {
                     rel="noopener noreferrer"
                     className="btn-rakuten"
                   >
-                    楽天で見る →
+                    {p.affiliateUrl.includes("yahoo") ? "Yahoo!で見る →" : "楽天で見る →"}
                   </a>
                 </td>
               </tr>

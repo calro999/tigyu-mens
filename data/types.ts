@@ -43,6 +43,13 @@ export interface SynergyRecommendation {
   targetTitle: string;
 }
 
+export interface PostFeatureSection {
+  title: string;
+  body: string;
+  imageUrl?: string;
+  imageAlt?: string;
+}
+
 export interface Post {
   slug: string;
   title: string;
@@ -64,4 +71,5 @@ export interface Post {
   usageSteps?: UsageStep[];
   faqs?: ArticleFaq[];
   synergyTip?: SynergyRecommendation;
+  featureSections?: PostFeatureSection[];
 }

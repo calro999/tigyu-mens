@@ -329,7 +329,9 @@ export default async function PostPage({ params }: PageProps) {
           <section id="sec-deepdive" className="article-section">
             <h2 className="section-headline">
               <span>🔍</span>
-              【タイプ別】厳選4アイテムの徹底解剖＆選ぶべき理由
+              {post.comparisonTable.length > 1
+                ? "【タイプ別】厳選アイテムの徹底解剖＆選ぶべき理由"
+                : "本命アイテムの徹底解剖＆ガチ検証レビュー"}
             </h2>
             <div className="deep-dive-list">
               {post.comparisonTable.map((item, idx) => (
@@ -384,7 +386,7 @@ export default async function PostPage({ params }: PageProps) {
                           rel="noopener noreferrer"
                           className="btn-rakuten"
                         >
-                          楽天市場で詳細＆口コミを見る →
+                          {item.affiliateUrl.includes("yahoo") ? "Yahoo!公式ストアで詳細＆最安値をチェック →" : "楽天市場で詳細＆口コミを見る →"}
                         </a>
                       </div>
                     </div>
@@ -393,6 +395,52 @@ export default async function PostPage({ params }: PageProps) {
               ))}
             </div>
           </section>
+
+          {/* 注目ポイント・詳細ビジュアル解説セクション */}
+          {post.featureSections && post.featureSections.length > 0 && (
+            <section className="article-section">
+              <h2 className="section-headline">
+                <span>🔥</span>
+                なぜこれほど圧倒的な支持を集めるのか？3つの核心理由
+              </h2>
+              <div style={{ display: "flex", flexDirection: "column", gap: "28px", marginTop: "20px" }}>
+                {post.featureSections.map((sec, i) => (
+                  <div
+                    key={i}
+                    style={{
+                      background: "var(--card-bg, #1a1e24)",
+                      border: "1px solid var(--border-color, #2a313c)",
+                      borderRadius: "12px",
+                      padding: "24px",
+                      boxShadow: "0 4px 12px rgba(0,0,0,0.15)"
+                    }}
+                  >
+                    <h3 style={{ fontSize: "1.2rem", fontWeight: "bold", color: "var(--text-primary, #fff)", marginBottom: "14px", display: "flex", alignItems: "center", gap: "8px" }}>
+                      <span style={{ color: "var(--brand-accent, #ff5722)", fontWeight: "900" }}>0{i + 1}.</span> {sec.title}
+                    </h3>
+                    <p style={{ fontSize: "0.98rem", lineHeight: "1.8", color: "var(--text-secondary, #cbd5e1)", marginBottom: sec.imageUrl ? "20px" : "0" }}>
+                      {sec.body}
+                    </p>
+                    {sec.imageUrl && (
+                      <div style={{ textAlign: "center", marginTop: "16px" }}>
+                        <img
+                          src={sec.imageUrl}
+                          alt={sec.imageAlt || sec.title}
+                          style={{
+                            maxWidth: "100%",
+                            height: "auto",
+                            borderRadius: "8px",
+                            border: "1px solid var(--border-color, #334155)"
+                          }}
+                          loading="lazy"
+                        />
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
 
           {/* 効果を200%引き出す黄金実践ルーティン */}
           {post.usageSteps && post.usageSteps.length > 0 && (
