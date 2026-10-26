@@ -648,9 +648,11 @@ section {
 
 .table-responsive {
     overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
 }
 .comp-table {
     width: 100%;
+    min-width: 920px;
     border-collapse: collapse;
     font-size: 0.85rem;
     text-align: left;
@@ -662,6 +664,7 @@ section {
     font-size: 0.75rem;
     text-transform: uppercase;
     font-weight: 800;
+    white-space: nowrap;
 }
 .comp-table td {
     padding: 16px 14px;
@@ -675,7 +678,8 @@ section {
     display: flex;
     align-items: center;
     gap: 15px;
-    min-width: 240px;
+    min-width: 250px;
+    max-width: 280px;
 }
 .item-img-wrap {
     width: 64px;
@@ -726,9 +730,18 @@ section {
     white-space: nowrap;
     display: inline-block;
 }
+.comp-table-feature-cell {
+    color: var(--text-muted);
+    font-size: 0.82rem;
+    min-width: 260px;
+    max-width: 320px;
+    line-height: 1.6;
+}
 .pros-cons-box {
     font-size: 0.75rem;
     line-height: 1.5;
+    min-width: 200px;
+    max-width: 240px;
 }
 .pros-text {
     color: #4ade80;

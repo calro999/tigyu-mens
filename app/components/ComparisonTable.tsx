@@ -121,7 +121,7 @@ export default function ComparisonTable({ products }: Props) {
                     </div>
                   )}
                 </td>
-                <td style={{ color: "var(--text-muted)", fontSize: "0.8rem", maxWidth: "260px", lineHeight: "1.5" }}>
+                <td className="comp-table-feature-cell">
                   {p.feature}
                   {p.dailyCost && (
                     <div style={{ fontSize: "0.73rem", color: "var(--brand-accent)", marginTop: "6px", fontWeight: 700 }}>
