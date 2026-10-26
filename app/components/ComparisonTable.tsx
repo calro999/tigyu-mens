@@ -78,13 +78,20 @@ export default function ComparisonTable({ products }: Props) {
       {/* PC表示用テーブル */}
       <div className="table-responsive">
         <table className="comp-table">
+          <colgroup>
+            <col style={{ width: "27%" }} />
+            <col style={{ width: "17%" }} />
+            <col style={{ width: "23%" }} />
+            <col style={{ width: "20%" }} />
+            <col style={{ width: "13%" }} />
+          </colgroup>
           <thead>
             <tr>
               <th>商品 / ブランド</th>
               <th>推奨タイプ</th>
               <th>特徴・アピール点</th>
               <th>メリット / デメリット</th>
-              <th style={{ textAlign: "center" }}>詳細・購入</th>
+              <th style={{ textAlign: "center" }}>詳細</th>
             </tr>
           </thead>
           <tbody>
