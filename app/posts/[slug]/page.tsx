@@ -468,7 +468,14 @@ export default async function PostPage({ params }: PageProps) {
                           target="_blank"
                           rel="noopener noreferrer"
                           className="btn-rakuten"
-                          style={{ display: "inline-block", padding: "12px 28px", fontSize: "0.95rem" }}
+                          style={{
+                            display: "inline-block",
+                            padding: "12px 24px",
+                            fontSize: "0.92rem",
+                            maxWidth: "100%",
+                            whiteSpace: "normal",
+                            wordBreak: "break-word"
+                          }}
                         >
                           {sec.affiliateButtonText || (sec.affiliateUrl.includes("yahoo") ? "👉 Yahoo!公式ストアで詳細を見る →" : "👉 詳細を見る →")}
                         </a>
