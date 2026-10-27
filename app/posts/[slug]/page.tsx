@@ -210,7 +210,7 @@ export default async function PostPage({ params }: PageProps) {
         </nav>
 
         {/* 記事ヘッダー */}
-        <header className="article-header">
+        <div className="article-header">
           <div className="article-meta">
             <span className="cat-label">{post.category}</span>
             <span>{post.date}</span>
@@ -218,7 +218,7 @@ export default async function PostPage({ params }: PageProps) {
           </div>
           <h1 className="article-title">{post.title}</h1>
           <p className="article-lead">{post.excerpt}</p>
-        </header>
+        </div>
 
         {/* 楽天APIから取得した商品の高画質アイキャッチ画像 */}
         {post.heroImage && (
