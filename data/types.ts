@@ -48,6 +48,9 @@ export interface PostFeatureSection {
   body: string;
   imageUrl?: string;
   imageAlt?: string;
+  imageGallery?: { url: string; alt: string }[];
+  affiliateUrl?: string;
+  affiliateButtonText?: string;
 }
 
 export interface Post {

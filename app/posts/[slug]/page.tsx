@@ -401,7 +401,7 @@ export default async function PostPage({ params }: PageProps) {
             <section className="article-section">
               <h2 className="section-headline">
                 <span>🔥</span>
-                なぜこれほど圧倒的な支持を集めるのか？3つの核心理由
+                本命ギア＆相乗アイテムの徹底解剖と選ぶべき理由
               </h2>
               <div style={{ display: "flex", flexDirection: "column", gap: "28px", marginTop: "20px" }}>
                 {post.featureSections.map((sec, i) => (
@@ -418,10 +418,35 @@ export default async function PostPage({ params }: PageProps) {
                     <h3 style={{ fontSize: "1.2rem", fontWeight: "bold", color: "var(--text-primary, #fff)", marginBottom: "14px", display: "flex", alignItems: "center", gap: "8px" }}>
                       <span style={{ color: "var(--brand-accent, #ff5722)", fontWeight: "900" }}>0{i + 1}.</span> {sec.title}
                     </h3>
-                    <p style={{ fontSize: "0.98rem", lineHeight: "1.8", color: "var(--text-secondary, #cbd5e1)", marginBottom: sec.imageUrl ? "20px" : "0" }}>
+                    <p style={{ fontSize: "0.98rem", lineHeight: "1.8", color: "var(--text-secondary, #cbd5e1)", marginBottom: (sec.imageUrl || sec.imageGallery) ? "20px" : "0" }}>
                       {sec.body}
                     </p>
-                    {sec.imageUrl && (
+                    {sec.imageGallery && sec.imageGallery.length > 0 && (
+                      <div style={{ margin: "16px 0" }}>
+                        <div style={{ display: "flex", gap: "12px", overflowX: "auto", padding: "10px 4px", WebkitOverflowScrolling: "touch" }}>
+                          {sec.imageGallery.map((imgItem, gIdx) => (
+                            <img
+                              key={gIdx}
+                              src={imgItem.url}
+                              alt={imgItem.alt || `ギャラリー画像 ${gIdx + 1}`}
+                              style={{
+                                flex: "0 0 220px",
+                                width: "220px",
+                                height: "220px",
+                                objectFit: "cover",
+                                borderRadius: "8px",
+                                border: "1px solid var(--border-color, #334155)"
+                              }}
+                              loading="lazy"
+                            />
+                          ))}
+                        </div>
+                        <p style={{ textAlign: "right", fontSize: "0.75rem", color: "var(--text-muted, #94a3b8)", marginTop: "4px" }}>
+                          ※横にスワイプ・スクロールして確認できます
+                        </p>
+                      </div>
+                    )}
+                    {sec.imageUrl && !sec.imageGallery && (
                       <div style={{ textAlign: "center", marginTop: "16px" }}>
                         <img
                           src={sec.imageUrl}
@@ -434,6 +459,19 @@ export default async function PostPage({ params }: PageProps) {
                           }}
                           loading="lazy"
                         />
+                      </div>
+                    )}
+                    {sec.affiliateUrl && (
+                      <div style={{ textAlign: "center", marginTop: "20px" }}>
+                        <a
+                          href={sec.affiliateUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="btn-rakuten"
+                          style={{ display: "inline-block", padding: "12px 28px", fontSize: "0.95rem" }}
+                        >
+                          {sec.affiliateButtonText || (sec.affiliateUrl.includes("yahoo") ? "👉 Yahoo!公式ストアで詳細を見る →" : "👉 詳細を見る →")}
+                        </a>
                       </div>
                     )}
                   </div>

@@ -58,6 +58,15 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://tigyu-mens.vercel.app",
   },
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/icon.png", type: "image/png", sizes: "512x512" },
+    ],
+    apple: [
+      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+    ],
+  },
 };
 
 // AI-SEO / GEO / LLM検索エンジン向け構造化データ（Organization & WebSite）
