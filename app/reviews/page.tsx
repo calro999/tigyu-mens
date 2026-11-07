@@ -62,7 +62,12 @@ export default async function ReviewsPage({ searchParams }: Props) {
           {filteredPosts.map((post) => (
             <Link key={post.slug} href={`/posts/${post.slug}`} className="post-card">
               <div className="post-thumb">
-                <img src={post.heroImage} alt={post.title} />
+                <img
+                  src={post.heroImage}
+                  alt={post.title}
+                  loading="lazy"
+                  decoding="async"
+                />
               </div>
               <div className="post-info">
                 <div className="post-meta">

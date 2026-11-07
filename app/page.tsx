@@ -17,7 +17,12 @@ export default function Home() {
           {/* メイン特集 */}
           {heroMain && (
             <Link href={`/posts/${heroMain.slug}`} className="hero-card hero-main">
-              <img src={heroMain.heroImage} alt={heroMain.title} />
+              <img
+                src={heroMain.heroImage}
+                alt={heroMain.title}
+                fetchPriority="high"
+                decoding="async"
+              />
               <div className="hero-content">
                 <div className="hero-meta">
                   <span className="cat-label">{heroMain.category}</span>
@@ -31,7 +36,12 @@ export default function Home() {
           {/* サブ特集1 */}
           {heroSub1 && (
             <Link href={`/posts/${heroSub1.slug}`} className="hero-card hero-sub">
-              <img src={heroSub1.heroImage} alt={heroSub1.title} />
+              <img
+                src={heroSub1.heroImage}
+                alt={heroSub1.title}
+                loading="lazy"
+                decoding="async"
+              />
               <div className="hero-content">
                 <div className="hero-meta">
                   <span className="cat-label" style={{ background: "#fff", color: "#000" }}>
@@ -46,7 +56,12 @@ export default function Home() {
           {/* サブ特集2 */}
           {heroSub2 && (
             <Link href={`/posts/${heroSub2.slug}`} className="hero-card hero-sub">
-              <img src={heroSub2.heroImage} alt={heroSub2.title} />
+              <img
+                src={heroSub2.heroImage}
+                alt={heroSub2.title}
+                loading="lazy"
+                decoding="async"
+              />
               <div className="hero-content">
                 <div className="hero-meta">
                   <span className="cat-label" style={{ background: "#fff", color: "#000" }}>
@@ -109,7 +124,12 @@ export default function Home() {
               {posts.map((post) => (
                 <Link key={post.slug} href={`/posts/${post.slug}`} className="post-card">
                   <div className="post-thumb">
-                    <img src={post.heroImage} alt={post.title} />
+                    <img
+                      src={post.heroImage}
+                      alt={post.title}
+                      loading="lazy"
+                      decoding="async"
+                    />
                   </div>
                   <div className="post-info">
                     <div className="post-meta">
@@ -135,7 +155,12 @@ export default function Home() {
                   <li key={post.slug} className="ranking-item">
                     <div className="ranking-num">{idx + 1}</div>
                     <div className="ranking-thumb">
-                      <img src={post.heroImage} alt={post.title} />
+                      <img
+                        src={post.heroImage}
+                        alt={post.title}
+                        loading="lazy"
+                        decoding="async"
+                      />
                     </div>
                     <div className="ranking-title">
                       <Link href={`/posts/${post.slug}`}>{post.title}</Link>

@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getPostBySlug, getAllPosts } from "@/data/posts";
 import ComparisonTable from "@/app/components/ComparisonTable";
+import StickyCtaBar from "@/app/components/StickyCtaBar";
 import type { Metadata } from "next";
 
 interface PageProps {
@@ -218,12 +219,31 @@ export default async function PostPage({ params }: PageProps) {
           </div>
           <h1 className="article-title">{post.title}</h1>
           <p className="article-lead">{post.excerpt}</p>
+          <p
+            style={{
+              fontSize: "12px",
+              color: "#a1a1aa",
+              border: "1px solid #3f3f46",
+              borderRadius: "6px",
+              padding: "8px 12px",
+              marginTop: "12px",
+            }}
+          >
+            【PR】本記事は広告（楽天アフィリエイト等）を含みます。リンク経由で商品が購入されると、当サイトに報酬が支払われることがあります。
+          </p>
         </div>
 
         {/* 楽天APIから取得した商品の高画質アイキャッチ画像 */}
         {post.heroImage && (
           <div className="article-hero-wrap">
-            <img src={post.heroImage} alt={post.title} />
+            <img
+              src={post.heroImage}
+              alt={post.title}
+              width={600}
+              height={600}
+              fetchPriority="high"
+              decoding="async"
+            />
           </div>
         )}
 
@@ -243,10 +263,14 @@ export default async function PostPage({ params }: PageProps) {
                   key={i}
                   href={item.affiliateUrl}
                   target="_blank"
-                  rel="noopener noreferrer"
-                  className="quick-pick-pill"
+                  rel="sponsored noopener noreferrer"
+                  className="quick-pick-pill group"
                 >
-                  🏆 {item.targetSkin}枠：{item.brand} {item.name}（{item.price}）を見る →
+                  <span className="text-[#ccff00] font-black mr-1">
+                    {i === 0 ? "🔥 最もおすすめ（1位）：" : "🥈 おすすめ2位："}
+                  </span>
+                  <span>{item.brand} {item.name}（{item.price}）</span>
+                  <span className="ml-1 text-zinc-400 group-hover:text-white">公式で確認 →</span>
                 </a>
               ))}
             </div>
@@ -383,7 +407,7 @@ export default async function PostPage({ params }: PageProps) {
                         <a
                           href={item.affiliateUrl}
                           target="_blank"
-                          rel="noopener noreferrer"
+                          rel="sponsored noopener noreferrer"
                           className="btn-rakuten"
                         >
                           {item.affiliateUrl.includes("yahoo") ? "Yahoo!公式ストアで詳細＆最安値をチェック →" : "楽天市場で詳細＆口コミを見る →"}
@@ -466,7 +490,7 @@ export default async function PostPage({ params }: PageProps) {
                         <a
                           href={sec.affiliateUrl}
                           target="_blank"
-                          rel="noopener noreferrer"
+                          rel="sponsored noopener noreferrer"
                           className="btn-rakuten"
                           style={{
                             display: "inline-block",
@@ -586,7 +610,7 @@ export default async function PostPage({ params }: PageProps) {
                 >
                   <div className="related-thumb">
                     {rel.heroImage ? (
-                      <img src={rel.heroImage} alt={rel.title} />
+                      <img src={rel.heroImage} alt={rel.title} loading="lazy" decoding="async" />
                     ) : (
                       <div style={{ color: "var(--text-muted)", fontSize: "0.75rem" }}>NO IMG</div>
                     )}
@@ -601,6 +625,11 @@ export default async function PostPage({ params }: PageProps) {
           </section>
         )}
       </article>
+
+      {/* スクロール追従型ハイコンバージョン固定バー（モバイル・PC共通） */}
+      {post.comparisonTable && post.comparisonTable.length > 0 && (
+        <StickyCtaBar product={post.comparisonTable[0]} />
+      )}
     </>
   );
 }

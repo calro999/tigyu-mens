@@ -23,7 +23,17 @@ export default function ComparisonTable({ products }: Props) {
       {/* スマホ・タブレット向け高CVカードビュー */}
       <div className="comp-cards-mobile">
         {products.map((p, idx) => (
-          <div key={idx} className="comp-card-item">
+          <div
+            key={idx}
+            className={`comp-card-item relative ${
+              idx === 0 ? "border-[#ccff00]/60 shadow-[0_0_20px_rgba(204,255,0,0.12)]" : ""
+            }`}
+          >
+            {idx === 0 && (
+              <div className="inline-block mb-2 bg-[#ccff00] text-black font-black text-[11px] px-2.5 py-0.5 rounded-full uppercase tracking-wider">
+                👑 おすすめNo.1・本命枠
+              </div>
+            )}
             <div className="comp-card-top">
               <span className="badge-skin">{p.targetSkin}</span>
               <span className="comp-card-rating">
@@ -33,7 +43,7 @@ export default function ComparisonTable({ products }: Props) {
             <div className="comp-card-body">
               <div className="comp-card-img">
                 {p.imageUrl ? (
-                  <img src={p.imageUrl} alt={p.name} loading="lazy" />
+                  <img src={p.imageUrl} alt={p.name} loading="lazy" decoding="async" />
                 ) : (
                   <span>NO IMG</span>
                 )}
@@ -66,10 +76,12 @@ export default function ComparisonTable({ products }: Props) {
             <a
               href={p.affiliateUrl}
               target="_blank"
-              rel="noopener noreferrer"
+              rel="sponsored noopener noreferrer"
               className="btn-rakuten comp-card-btn"
             >
-              {p.affiliateUrl.includes("yahoo") ? "Yahoo!公式ストアで詳細＆最安値をチェック →" : "楽天市場で詳細・最安値をチェック →"}
+              {p.affiliateUrl.includes("yahoo")
+                ? "Yahoo!公式で最安値・在庫を見る →"
+                : "楽天市場で公式最安値・口コミを見る →"}
             </a>
           </div>
         ))}
@@ -101,7 +113,7 @@ export default function ComparisonTable({ products }: Props) {
                   <div className="item-cell">
                     <div className="item-img-wrap">
                       {p.imageUrl ? (
-                        <img src={p.imageUrl} alt={p.name} />
+                        <img src={p.imageUrl} alt={p.name} loading="lazy" decoding="async" />
                       ) : (
                         <div style={{ padding: "10px", fontSize: "0.7rem", color: "var(--text-muted)" }}>
                           NO IMG
@@ -152,7 +164,7 @@ export default function ComparisonTable({ products }: Props) {
                   <a
                     href={p.affiliateUrl}
                     target="_blank"
-                    rel="noopener noreferrer"
+                    rel="sponsored noopener noreferrer"
                     className="btn-rakuten"
                   >
                     {p.affiliateUrl.includes("yahoo") ? "Yahoo!で見る →" : "楽天で見る →"}

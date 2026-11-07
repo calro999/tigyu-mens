@@ -842,24 +842,53 @@ section {
     color: #fb7185;
 }
 .btn-rakuten {
-    display: inline-block;
-    background-color: var(--brand-accent);
-    color: #000 !important;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    background: linear-gradient(135deg, #ccff00 0%, #b3ff00 50%, #99e600 100%);
+    color: #050505 !important;
     font-weight: 900;
-    font-size: 0.82rem;
-    padding: 10px 18px;
-    border-radius: 6px;
-    box-shadow: 0 4px 12px rgba(204, 255, 0, 0.2);
-    transition: var(--transition);
+    font-size: 0.86rem;
+    letter-spacing: 0.02em;
+    padding: 12px 22px;
+    border-radius: 8px;
+    box-shadow: 0 4px 16px rgba(204, 255, 0, 0.28), 0 2px 4px rgba(0, 0, 0, 0.4);
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     max-width: 100%;
     text-align: center;
     box-sizing: border-box;
     word-break: break-word;
     overflow-wrap: break-word;
+    overflow: hidden;
+}
+.btn-rakuten::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    transform: skewX(-20deg);
+    animation: btnShimmer 3.5s infinite;
+}
+@keyframes btnShimmer {
+    0%, 65% {
+        left: -100%;
+    }
+    100% {
+        left: 200%;
+    }
 }
 .btn-rakuten:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(204, 255, 0, 0.35);
+    transform: translateY(-2px) scale(1.01);
+    box-shadow: 0 8px 24px rgba(204, 255, 0, 0.45), 0 4px 8px rgba(0, 0, 0, 0.5);
+    filter: brightness(1.05);
+}
+.btn-rakuten:active {
+    transform: translateY(0) scale(0.99);
 }
 
 /* ========================================================
@@ -868,7 +897,7 @@ section {
 footer {
     background-color: var(--bg-surface);
     border-top: 1px solid var(--border-color);
-    padding: 50px 0 25px 0;
+    padding: 50px 0 90px 0; /* モバイルSticky CTAバー考慮の余白 */
     margin-top: 60px;
 }
 .footer-grid {

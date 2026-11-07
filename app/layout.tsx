@@ -125,6 +125,23 @@ export default function RootLayout({
             `,
           }}
         />
+        <Script
+          id="affiliate-click-tracking"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              document.addEventListener('click', function (e) {
+                var a = e.target && e.target.closest ? e.target.closest('a[rel*="sponsored"]') : null;
+                if (!a || typeof gtag !== 'function') return;
+                gtag('event', 'affiliate_click', {
+                  link_url: a.href,
+                  link_text: (a.textContent || '').trim().slice(0, 80),
+                  page_path: window.location.pathname
+                });
+              }, true);
+            `,
+          }}
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

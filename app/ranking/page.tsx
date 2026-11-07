@@ -40,7 +40,12 @@ export default function RankingPage() {
               </div>
 
               <div className="ranking-card-thumb">
-                <img src={post.heroImage} alt={post.title} />
+                <img
+                  src={post.heroImage}
+                  alt={post.title}
+                  loading={idx < 3 ? "eager" : "lazy"}
+                  decoding="async"
+                />
               </div>
 
               <div className="ranking-card-content">
