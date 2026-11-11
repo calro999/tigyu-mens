@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { getAllPosts, getRankingPosts } from "@/data/posts";
+import QuickDiagnostic from "@/app/components/QuickDiagnostic";
 
 export default function Home() {
   const posts = getAllPosts();
@@ -105,6 +106,9 @@ export default function Home() {
         </div>
       </section>
 
+      {/* 30秒・悩み別 最短即決ナビゲーション */}
+      <QuickDiagnostic />
+
       {/* メインコンテンツ ＆ サイドバー */}
       <section className="container" id="latest">
         <div className="content-wrapper">
@@ -151,22 +155,44 @@ export default function Home() {
             <div className="widget">
               <h3 className="widget-title">殿堂入りランキング</h3>
               <ul className="ranking-list">
-                {rankingPosts.map((post, idx) => (
-                  <li key={post.slug} className="ranking-item">
-                    <div className="ranking-num">{idx + 1}</div>
-                    <div className="ranking-thumb">
-                      <img
-                        src={post.heroImage}
-                        alt={post.title}
-                        loading="lazy"
-                        decoding="async"
-                      />
-                    </div>
-                    <div className="ranking-title">
-                      <Link href={`/posts/${post.slug}`}>{post.title}</Link>
-                    </div>
-                  </li>
-                ))}
+                {rankingPosts.map((post, idx) => {
+                  const topProduct = post.comparisonTable && post.comparisonTable[0];
+                  return (
+                    <li key={post.slug} className="ranking-item flex flex-col gap-1.5 p-2 rounded-lg bg-zinc-900/60 border border-zinc-800/80 mb-2">
+                      <div className="flex items-center gap-2">
+                        <div className="ranking-num">{idx + 1}</div>
+                        <div className="ranking-thumb">
+                          <img
+                            src={post.heroImage}
+                            alt={post.title}
+                            loading="lazy"
+                            decoding="async"
+                          />
+                        </div>
+                        <div className="ranking-title flex-1 min-w-0">
+                          <Link href={`/posts/${post.slug}`} className="line-clamp-2 text-xs font-bold hover:text-[#ccff00]">
+                            {post.title}
+                          </Link>
+                        </div>
+                      </div>
+                      {topProduct && (
+                        <div className="flex items-center justify-between gap-1 pt-1 border-t border-zinc-800 text-[11px]">
+                          <span className="text-zinc-400 truncate max-w-[150px]">
+                            1位：{topProduct.name}
+                          </span>
+                          <a
+                            href={topProduct.affiliateUrl}
+                            target="_blank"
+                            rel="sponsored noopener noreferrer"
+                            className="text-[#ccff00] hover:underline font-extrabold shrink-0"
+                          >
+                            楽天で見る →
+                          </a>
+                        </div>
+                      )}
+                    </li>
+                  );
+                })}
               </ul>
             </div>
 

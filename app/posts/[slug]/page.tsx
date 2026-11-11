@@ -321,6 +321,58 @@ export default async function PostPage({ params }: PageProps) {
                 </div>
               </div>
             )}
+
+            {/* 即決クイックコールアウト（読者が即購入できる中盤キラー導線） */}
+            {post.comparisonTable && post.comparisonTable.length > 0 && (
+              <div className="my-6 p-4 sm:p-5 rounded-xl bg-gradient-to-r from-orange-950/40 via-zinc-900 to-zinc-900 border border-orange-500/50 shadow-lg">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="bg-[#ccff00] text-black font-black text-xs px-2 py-0.5 rounded">
+                    結論・最短ルート
+                  </span>
+                  <span className="text-xs sm:text-sm font-bold text-orange-300">
+                    悩む時間ゼロ！まず試すべき本塾推奨No.1アイテム
+                  </span>
+                </div>
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pt-2 border-t border-zinc-800">
+                  <div className="flex items-center gap-3">
+                    {post.comparisonTable[0].imageUrl && (
+                      <div className="w-14 h-14 rounded-lg bg-zinc-900 overflow-hidden shrink-0 border border-zinc-700">
+                        <img
+                          src={post.comparisonTable[0].imageUrl}
+                          alt={post.comparisonTable[0].name}
+                          className="w-full h-full object-cover"
+                          loading="lazy"
+                        />
+                      </div>
+                    )}
+                    <div>
+                      <span className="text-[11px] text-zinc-400 font-medium">
+                        {post.comparisonTable[0].brand}
+                      </span>
+                      <h3 className="text-sm sm:text-base font-extrabold text-white leading-tight">
+                        {post.comparisonTable[0].name}
+                      </h3>
+                      <div className="flex items-center gap-2 mt-0.5">
+                        <span className="text-xs font-black text-[#fbbf24]">
+                          {post.comparisonTable[0].price}
+                        </span>
+                        <span className="text-[11px] text-zinc-400">
+                          ★{post.comparisonTable[0].rating || 4.5} （送料無料・在庫あり）
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <a
+                    href={post.comparisonTable[0].affiliateUrl}
+                    target="_blank"
+                    rel="sponsored noopener noreferrer"
+                    className="btn-rakuten text-xs font-black py-2.5 px-5 w-full sm:w-auto text-center shrink-0"
+                  >
+                    公式最安値で手に入れる →
+                  </a>
+                </div>
+              </div>
+            )}
           </section>
 
           {/* 失敗しない選び方の3大鉄則 */}
