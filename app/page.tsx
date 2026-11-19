@@ -76,7 +76,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Categories (タグクラウド風デザイン) */}
+      {/* Categories (5大カテゴリナビゲーション) */}
       <section className="container">
         <div className="cat-grid">
           <Link href="/reviews?cat=スキンケア・洗顔" className="cat-box">
@@ -94,13 +94,19 @@ export default function Home() {
           <Link href="/reviews?cat=ボディ・姿勢改善" className="cat-box">
             <div className="cat-icon">💪</div>
             <div className="cat-name">
-              ボディメイク<span>BODY & DIET</span>
+              ボディ＆姿勢<span>BODY & POSTURE</span>
             </div>
           </Link>
           <Link href="/reviews?cat=ニオイ・体臭対策" className="cat-box">
             <div className="cat-icon">🚿</div>
             <div className="cat-name">
               ニオイ対策<span>CLEANLINESS</span>
+            </div>
+          </Link>
+          <Link href="/reviews?cat=ファッション・身だしなみ" className="cat-box">
+            <div className="cat-icon">👔</div>
+            <div className="cat-name">
+              身だしなみギア<span>FASHION & GEAR</span>
             </div>
           </Link>
         </div>

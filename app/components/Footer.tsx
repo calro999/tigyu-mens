@@ -15,19 +15,22 @@ export default function Footer() {
             </p>
           </div>
           <div>
-            <h4 className="footer-title">カリキュラム</h4>
+            <h4 className="footer-title">カテゴリ別レビュー</h4>
             <ul className="footer-links">
               <li>
-                <Link href="/curriculum">スキンケア基礎</Link>
+                <Link href="/reviews?cat=スキンケア・洗顔">スキンケア・洗顔</Link>
               </li>
               <li>
-                <Link href="/curriculum">ヘア＆眉毛セット</Link>
+                <Link href="/reviews?cat=ヘア・眉毛セット">ヘア・眉毛セット</Link>
               </li>
               <li>
-                <Link href="/curriculum">ボディメイク・食事</Link>
+                <Link href="/reviews?cat=ボディ・姿勢改善">ボディ・姿勢改善</Link>
               </li>
               <li>
-                <Link href="/curriculum">ニオイ対策</Link>
+                <Link href="/reviews?cat=ニオイ・体臭対策">ニオイ・体臭対策</Link>
+              </li>
+              <li>
+                <Link href="/reviews?cat=ファッション・身だしなみ">ファッション・身だしなみ</Link>
               </li>
             </ul>
           </div>

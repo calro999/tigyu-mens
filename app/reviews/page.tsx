@@ -21,7 +21,34 @@ export default async function ReviewsPage({ searchParams }: Props) {
     return true;
   });
 
-  const categories = ["すべて", "スキンケア・洗顔", "ヘア・眉毛セット", "ボディ・姿勢改善", "ニオイ・体臭対策"];
+  const categoryMeta = [
+    { name: "すべて", icon: "🔥", count: allPosts.length },
+    {
+      name: "スキンケア・洗顔",
+      icon: "🧴",
+      count: allPosts.filter((p) => p.category === "スキンケア・洗顔").length,
+    },
+    {
+      name: "ヘア・眉毛セット",
+      icon: "✂️",
+      count: allPosts.filter((p) => p.category === "ヘア・眉毛セット").length,
+    },
+    {
+      name: "ボディ・姿勢改善",
+      icon: "💪",
+      count: allPosts.filter((p) => p.category === "ボディ・姿勢改善").length,
+    },
+    {
+      name: "ニオイ・体臭対策",
+      icon: "🚿",
+      count: allPosts.filter((p) => p.category === "ニオイ・体臭対策").length,
+    },
+    {
+      name: "ファッション・身だしなみ",
+      icon: "👔",
+      count: allPosts.filter((p) => p.category === "ファッション・身だしなみ").length,
+    },
+  ];
 
   return (
     <main className="subpage-container">
@@ -29,25 +56,66 @@ export default async function ReviewsPage({ searchParams }: Props) {
         <span className="subpage-en">REVIEWS & BENCHMARKS</span>
         <h1 className="subpage-title">最新の検証・比較レポート</h1>
         <p className="subpage-lead">
-          ドラッグストアから楽天で話題の本格コスメまで、実際に効果の出るアイテムだけを肌質別に徹底比較しています。
+          ドラッグストアから楽天で話題の本格コスメ・身だしなみギアまで、実際に効果の出るアイテムだけを肌質・悩みタイプ別に徹底比較しています。
         </p>
       </div>
 
       {/* カテゴリフィルタ */}
       <div className="filter-bar">
-        {categories.map((c) => {
-          const isSelected = (!cat && c === "すべて") || cat === c;
+        {categoryMeta.map((c) => {
+          const isSelected = (!cat && c.name === "すべて") || cat === c.name;
           return (
             <Link
-              key={c}
-              href={c === "すべて" ? "/reviews" : `/reviews?cat=${encodeURIComponent(c)}`}
+              key={c.name}
+              href={c.name === "すべて" ? "/reviews" : `/reviews?cat=${encodeURIComponent(c.name)}`}
               className={`filter-btn ${isSelected ? "active" : ""}`}
             >
-              {c}
+              <span style={{ marginRight: "6px" }}>{c.icon}</span>
+              <span>{c.name}</span>
+              <span
+                style={{
+                  marginLeft: "6px",
+                  fontSize: "0.72rem",
+                  opacity: isSelected ? 0.9 : 0.65,
+                }}
+              >
+                ({c.count})
+              </span>
             </Link>
           );
         })}
       </div>
+
+      {/* タグ絞り込み中のステータス表示 */}
+      {tag && (
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: "12px",
+            marginBottom: "24px",
+            fontSize: "0.85rem",
+          }}
+        >
+          <span style={{ color: "var(--text-muted)" }}>
+            タグ絞り込み中: <strong style={{ color: "var(--brand-accent)" }}>{tag}</strong>（{filteredPosts.length}件）
+          </span>
+          <Link
+            href={cat ? `/reviews?cat=${encodeURIComponent(cat)}` : "/reviews"}
+            style={{
+              padding: "3px 10px",
+              borderRadius: "4px",
+              background: "var(--bg-surface)",
+              border: "1px solid var(--border-color)",
+              fontSize: "0.75rem",
+              color: "var(--text-main)",
+            }}
+          >
+            ✕ タグ解除
+          </Link>
+        </div>
+      )}
 
       {/* 記事一覧 */}
       {filteredPosts.length === 0 ? (

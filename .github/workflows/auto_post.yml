@@ -2,10 +2,36 @@ name: Auto Generate, Publish & Bluesky Promote
 
 on:
   schedule:
-    # 1日に5回自動実行（JST: 08:30, 12:30, 16:30, 19:30, 22:30）
-    # UTC: 23:30, 03:30, 07:30, 10:30, 13:30
-    - cron: '30 23,3,7,10,13 * * *'
+    # 毎日5回、時間帯別の読者ニーズに合わせて異なるカテゴリ・テーマ軸の記事を自動生成
+    # 1. 朝 08:30 JST (23:30 UTC): スキンケア・洗顔（朝の洗顔・保湿・UV・季節の肌荒れ・毛穴対策）
+    - cron: '30 23 * * *'
+    # 2. 昼 12:30 JST (03:30 UTC): ヘア・眉毛セット（ヘアスタイリング・頭皮ケア・眉毛・産毛・ドライヤー）
+    - cron: '30 3 * * *'
+    # 3. 夕 16:30 JST (07:30 UTC): ニオイ・体臭対策（夕方のワキ汗・体臭・口臭・足ムレ・衣類＆部屋消臭）
+    - cron: '30 7 * * *'
+    # 4. 夜 19:30 JST (10:30 UTC): ファッション・身だしなみ（デート前夜の服・靴・メガネ洗浄・白T・財布等の身だしなみギア）
+    - cron: '30 10 * * *'
+    # 5. 深夜 22:30 JST (13:30 UTC): ボディ・姿勢改善（風呂上がりの猫背・骨盤矯正・EMS小顔・筋膜リリース・指先ケア）
+    - cron: '30 13 * * *'
   workflow_dispatch:
+    inputs:
+      target_category:
+        description: '生成する記事のターゲットカテゴリ（空欄または「自動」で時間帯別ローテーション）'
+        required: false
+        default: '自動（時間帯別ロードマップ）'
+        type: choice
+        options:
+          - '自動（時間帯別ロードマップ）'
+          - 'スキンケア・洗顔'
+          - 'ヘア・眉毛セット'
+          - 'ニオイ・体臭対策'
+          - 'ファッション・身だしなみ'
+          - 'ボディ・姿勢改善'
+      custom_directive:
+        description: '特別に狙いたい記事テーマ方針（任意：例「冬の乾燥フケ対策」「初デート前夜の緊急ケア」など）'
+        required: false
+        default: ''
+        type: string
   repository_dispatch:
 
 permissions:
@@ -28,12 +54,81 @@ jobs:
           python -m pip install --upgrade pip
           pip install requests atproto Pillow
 
-      - name: Generate New Comparison Article (Rakuten & Gemini)
+      - name: Decide Daily Editorial Theme & Category by Time Slot
+        id: editorial_plan
+        env:
+          INPUT_CATEGORY: ${{ github.event.inputs.target_category }}
+          INPUT_DIRECTIVE: ${{ github.event.inputs.custom_directive }}
+        run: |
+          HOUR_JST=$(TZ=Asia/Tokyo date +%H)
+          DOW_JST=$(TZ=Asia/Tokyo date +%u)
+
+          # 曜日ごとの切り口（月〜日で記事の角度を変化させてマンネリ・重複を防止）
+          case "$DOW_JST" in
+            1) DAY_ANGLE="週始めの仕事・通学で第一印象を劇的に引き上げる即効ケア" ;;
+            2) DAY_ANGLE="至近距離の会話やオフィス・教室の蛍光灯の下で減点されない徹底対策" ;;
+            3) DAY_ANGLE="週の折り返しの疲れ顔・夕方の清潔感崩壊を食い止めるレスキューギア" ;;
+            4) DAY_ANGLE="週末のデート・飲み会・合コンに向けて木曜から仕込む垢抜けルーティン" ;;
+            5) DAY_ANGLE="金曜夜のお泊まり・宅飲み・外食前に絶対外せない緊急エチケット対策" ;;
+            6) DAY_ANGLE="休日の自分磨き・サウナ・旅行・買い物で差がつく本格メンズ美容ギア" ;;
+            *) DAY_ANGLE="日曜夜の徹底メンテナンス！翌週から別人級に垢抜ける週1回スペシャルケア" ;;
+          esac
+
+          if [ -n "$INPUT_CATEGORY" ] && [ "$INPUT_CATEGORY" != "自動（時間帯別ロードマップ）" ]; then
+            TARGET_CAT="$INPUT_CATEGORY"
+          else
+            if [ "$HOUR_JST" -ge 5 ] && [ "$HOUR_JST" -lt 11 ]; then
+              TARGET_CAT="スキンケア・洗顔"
+            elif [ "$HOUR_JST" -ge 11 ] && [ "$HOUR_JST" -lt 15 ]; then
+              TARGET_CAT="ヘア・眉毛セット"
+            elif [ "$HOUR_JST" -ge 15 ] && [ "$HOUR_JST" -lt 18 ]; then
+              TARGET_CAT="ニオイ・体臭対策"
+            elif [ "$HOUR_JST" -ge 18 ] && [ "$HOUR_JST" -lt 21 ]; then
+              TARGET_CAT="ファッション・身だしなみ"
+            else
+              TARGET_CAT="ボディ・姿勢改善"
+            fi
+          fi
+
+          case "$TARGET_CAT" in
+            "スキンケア・洗顔")
+              BASE_AXIS="【朝スロット：スキンケア・洗顔】冬のインナードライ・赤ら顔・毛穴黒ずみ・ニキビパッチ・青髭カバー・UVリップ・敏感肌洗顔など、顔の肌治安を最速で回復する比較検証"
+              ;;
+            "ヘア・眉毛セット")
+              BASE_AXIS="【昼スロット：ヘア・眉毛セット】乾燥フケ防止スカルプ保湿・静電気防止ブラシ・大風量ドライヤー・パーマ復活ムース・鼻毛ワックス・産毛フェイスシェーバーなど、髪と眉の清潔感を極める比較検証"
+              ;;
+            "ニオイ・体臭対策")
+              BASE_AXIS="【夕方スロット：ニオイ・体臭対策】厚着の下の冬ワキ汗消臭インナー・歯間ブラシ口臭ケア・枕ピローミスト・トイレ1滴消臭・重炭酸デトックス入浴剤・ボディスクラブなど、悪臭を根絶する比較検証"
+              ;;
+            "ファッション・身だしなみ")
+              BASE_AXIS="【夜スロット：ファッション・身だしなみ】メガネ超音波洗浄機・白シャツ襟袖の黄ばみ落とし・スニーカー超撥水防水スプレー・馬毛洋服ブラシ・透けない極厚白T・薄型ミニ財布など、身の回りの清潔感インフラを整える比較検証"
+              ;;
+            *)
+              BASE_AXIS="【深夜スロット：ボディ・姿勢改善】デスクワーク猫背・巻き肩矯正・スマホ首ストレッチ・二重あごEMS美顔器・小型筋膜リリースガン・指先ネイルオイルなど、骨格とパーツの垢抜けを作る比較検証"
+              ;;
+          esac
+
+          if [ -n "$INPUT_DIRECTIVE" ]; then
+            FINAL_DIRECTIVE="${BASE_AXIS} / 重点指定: ${INPUT_DIRECTIVE}（曜日テーマ: ${DAY_ANGLE}）"
+          else
+            FINAL_DIRECTIVE="${BASE_AXIS}（曜日テーマ: ${DAY_ANGLE}）"
+          fi
+
+          echo "target_category=${TARGET_CAT}" >> $GITHUB_OUTPUT
+          echo "target_directive=${FINAL_DIRECTIVE}" >> $GITHUB_OUTPUT
+          echo "=== Editorial Plan Decided ==="
+          echo "JST Hour: ${HOUR_JST} / Day of week: ${DOW_JST}"
+          echo "Target Category : ${TARGET_CAT}"
+          echo "Target Directive: ${FINAL_DIRECTIVE}"
+
+      - name: Generate New Comparison Article (Rakuten & Gemini - Zero Fallback)
         env:
           RAKUTEN_APP_ID: ${{ secrets.RAKUTEN_APP_ID }}
           RAKUTEN_ACCESS_KEY: ${{ secrets.RAKUTEN_ACCESS_KEY }}
           RAKUTEN_AFFILIATE_ID: ${{ secrets.RAKUTEN_AFFILIATE_ID }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          TARGET_CATEGORY: ${{ steps.editorial_plan.outputs.target_category }}
+          TARGET_AXIS_DIRECTIVE: ${{ steps.editorial_plan.outputs.target_directive }}
         run: |
           python scripts/auto_post.py
 
@@ -61,7 +156,7 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add data/posts.json posted_cache.txt bluesky_post_history.txt bluesky_text_history.txt 2>/dev/null || true
           if ! git diff --cached --quiet; then
-            git commit -m "feat(auto): new comparison article & bluesky promotion [skip ci]"
+            git commit -m "feat(auto): new comparison article (${{ steps.editorial_plan.outputs.target_category }}) & bluesky promotion [skip ci]"
             git pull --rebase origin main || true
             git push origin main
           fi
