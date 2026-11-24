@@ -31,18 +31,18 @@ CACHE_FILE = "posted_cache.txt"
 
 # ユーザー規則に基づく最新対応Geminiモデルローテーション（1.5系は完全廃止のため絶対使用禁止）
 GEMINI_ROTATION_MODELS = [
-    "gemini-3.1-flash-lite",
     "gemini-3.5-flash-lite",
+    "gemini-3.1-flash-lite",
+    "gemini-2.5-flash",
     "gemini-3.5-flash",
     "gemini-3.6-flash",
     "gemini-3.7-flash",
-    "gemini-2.5-flash",
+    "gemini-2.0-flash",
+    "gemini-2.0-flash-lite",
+    "gemini-2.5-flash-lite",
     "gemini-2.5-pro",
     "gemini-3-flash",
     "gemini-3.1-pro",
-    "gemini-2.5-flash-lite",
-    "gemini-2.0-flash",
-    "gemini-2.0-flash-lite",
 ]
 
 # 既存236記事と一切重複しない新規・高CVRの未開拓テーマ群（5大ロードマップ軸）
@@ -824,26 +824,31 @@ def auto_generate_one():
     selected_topic = None
     products_raw = []
 
-    # 指定カテゴリのキューが空で、かつtarget_categoryが明示されている場合は、そのカテゴリの自律新規テーマ開拓を優先実行
-    if target_category and target_category != "すべて" and not any(t["category"] == target_category for t in all_unposted):
-        print(f"[INFO] カテゴリ '{target_category}' の定義済みキューを消化済みのため、AI自律テーマ開拓を実行します。")
-        for _ in range(3):
-            auto_topic = discover_autonomous_topic(existing_posts, target_category=target_category, target_directive=target_directive)
-            items = search_rakuten_items(auto_topic["keyword"], hits=4)
-            if len(items) >= 3:
-                selected_topic = auto_topic
-                products_raw = items
-                break
+    # まず定義済み未投稿キュー（優先カテゴリ順）から楽天商品を検索
+    for candidate in available_topics:
+        print(f"[SEARCH] テーマ候補: {candidate['slug']} [{candidate['category']}] (Keyword: {candidate['keyword']})")
+        items = search_rakuten_items(candidate["keyword"], hits=4)
+        if len(items) >= 3:
+            selected_topic = candidate
+            products_raw = items
+            break
+        else:
+            print(f"[WARN] 商品数が不足 ({len(items)}点)。次の未投稿テーマを試行します。")
 
-    # 未投稿キューから楽天商品が3点以上見つかるテーマを選択
+    # 未投稿キューが全て消化された場合のみ、AI自律テーマ開拓を実行
     if not selected_topic:
-        for candidate in available_topics:
-            print(f"[SEARCH] テーマ候補: {candidate['slug']} [{candidate['category']}] (Keyword: {candidate['keyword']})")
-            items = search_rakuten_items(candidate["keyword"], hits=4)
-            if len(items) >= 3:
-                selected_topic = candidate
-                products_raw = items
-                break
+        print(f"[INFO] 定義済み未投稿キューを全て消化したため、AI自律テーマ開拓を実行します。")
+        for _ in range(5):
+            try:
+                auto_topic = discover_autonomous_topic(existing_posts, target_category=target_category, target_directive=target_directive)
+                items = search_rakuten_items(auto_topic["keyword"], hits=4)
+                if len(items) >= 3:
+                    selected_topic = auto_topic
+                    products_raw = items
+                    break
+            except Exception as e:
+                print(f"[WARN] 自律テーマ開拓試行エラー: {e}")
+                time.sleep(1.0)
             else:
                 print(f"[WARN] 商品数が不足 ({len(items)}点)。次の未投稿テーマを試行します。")
 
